@@ -97,7 +97,7 @@ export default {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            input: `Produce a profile of ${ministryName}(the one ${identifiableFact}) using the provided Nonprofit Research Model. Follow the instructions in the Nonprofit Research Model exactly.\n\n<beginning of Nonprofit Research Model>\n${instructions}\n<end of Nonprofit Research Model>`,
+            input: `Produce a profile of ${ministryName}(the one ${identifiableFact}) using the provided Nonprofit Research Model. Follow the instructions in the Nonprofit Research Model exactly. Your entire response must be formatted in Markdown, not HTML.\n\n<beginning of Nonprofit Research Model>\n${instructions}\n<end of Nonprofit Research Model>`,
             preset: 'deep-research',
             reasoning: {effort: 'high'},
             stream: true,
@@ -127,6 +127,8 @@ export default {
         // Generated report
         const generatedReport = findByTypeInJSON(responseWithReportData, "output_text")?.text ?? "";
         if (generatedReport == ""){
+          console.log(`Perplexity output structure differs from expected, unable to get output text`);
+          console.log(JSON.stringify(responseWithReportData, null, 2));  
           throw new Error(`Perplexity output structure differs from expected, unable to get output text`);
         }
 
@@ -182,7 +184,7 @@ export default {
       }
     })());
 
-  
+    // These return immediately
     const responseString = JSON.stringify({
       ministry_id: rowId,
       ministry_name: ministryName
