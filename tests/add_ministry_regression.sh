@@ -155,6 +155,12 @@ for entry in "${MINISTRIES[@]}"; do
       if [[ "$ROW_STATUS" == "not_verified" ]]; then
         COMPLETED=true
         break
+      elif [[ "$ROW_STATUS" == "error" ]]; then
+        echo "FAIL: background task set row status to error"
+        ((FAIL++))
+        db_delete "$NEW_ID"
+        echo "Test row deleted"
+        continue 2
       fi
     done
 

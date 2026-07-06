@@ -89,7 +89,7 @@ export default {
       try {
         console.log(`Starting background task`);
         
-        // Make API call to Perplexity and await the full response
+        // Make API call to Perplexity to generate the report with streaming enabled
         const responseFromReportRequest = await fetch('https://api.perplexity.ai/v1/agent', {
           method: 'POST',
           headers: {
@@ -100,9 +100,10 @@ export default {
             input: `Produce a profile of ${ministryName}(the one ${identifiableFact}) using the provided Nonprofit Research Model. Follow the instructions in the Nonprofit Research Model exactly.\n\n<beginning of Nonprofit Research Model>\n${instructions}\n<end of Nonprofit Research Model>`,
             preset: 'deep-research',
             reasoning: {effort: 'high'},
+            stream: true,
           }),
         });
-        console.log("Perplexity API responded");
+        console.log("Perplexity API returned stream");
 
         // Check for response status errors
         if (!responseFromReportRequest.ok) {
@@ -110,12 +111,18 @@ export default {
           throw new Error(`Perplexity API error: ${responseFromReportRequest.status} - ${errorText}`);
         }
 
-        const responseWithReportData: any = await responseFromReportRequest.json();
-        console.log("Perplexity response parsed");
+        const collectedEvents: any[] = await readSSEStream(responseFromReportRequest.body!);
+        console.log(`Stream complete, received ${collectedEvents.length} SSE events`);
+
+        // The final event in the stream contains the complete response.
+        const responseWithReportData: any = collectedEvents[collectedEvents.length - 1] ?? null;
 
         if (!responseWithReportData) {
-          throw new Error(`Perplexity returned an empty response`);
+          throw new Error(`Perplexity stream ended without any events`);
         }
+
+        // collectedEvents is no longer needed once the completion event has been extracted
+        collectedEvents.length = 0;
 
         // Generated report
         const generatedReport = findByTypeInJSON(responseWithReportData, "output_text")?.text ?? "";
@@ -168,6 +175,10 @@ export default {
 
       } catch (err) {
         console.error(`Background task failed: ${err}`);
+        await ctx.supabase
+          .from(MINISTRY_REPORTS_TABLE)
+          .update({ status: "error" })
+          .eq(ID_COLUMN_NAME, rowId);
       }
     })());
 
