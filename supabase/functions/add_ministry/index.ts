@@ -7,7 +7,7 @@ import { findByTypeInJSON, findAllByTypeInJSON, readSSEStream, injectCitationLin
 
 
 // Public URL for NRM, TODO: when users are added change bucket to private and don't use URL
-const NONPROFIT_RESEARCH_MODEL_PUBLIC_URL = "https://fyngtvccgxbbyjvckdcf.supabase.co/storage/v1/object/public/nonprofit_research_models/NRM_v1_3_spec.md"
+const NONPROFIT_RESEARCH_MODEL_PUBLIC_URL = "https://fyngtvccgxbbyjvckdcf.supabase.co/storage/v1/object/public/nonprofit_research_models/NRM_v1_4_spec.md"
 // const NONPROFIT_RESEARCH_MODEL_BUCKET_NAME = "nonprofit_research_models";
 // const NONPROFIT_RESEARCH_MODEL_FILE_NAME = "NRM_v1_3_spec.md";
 

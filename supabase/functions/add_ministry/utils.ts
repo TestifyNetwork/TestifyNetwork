@@ -74,9 +74,6 @@ export async function readSSEStream(body: ReadableStream<Uint8Array>): Promise<a
       }
       try {
         events.push(JSON.parse(payload));
-        if (events.length % 25 === 0) {
-          console.log(`SSE stream: received ${events.length} events so far...`);
-        }
       } catch {
         console.error(`SSE stream: failed to parse chunk: ${payload}`);
       }
