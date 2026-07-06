@@ -121,6 +121,13 @@ export default {
           throw new Error(`Perplexity stream ended without any events`);
         }
 
+        // Extract NRM version from the URL — the segment between "NRM_v" and "_spec"
+        const nrmVersionMatch = NONPROFIT_RESEARCH_MODEL_PUBLIC_URL.match(/NRM_v([\d_]+)_spec/);
+        const nrmVersion = nrmVersionMatch ? nrmVersionMatch[1].replace(/_/g, ".") : null;
+
+        // Extract model name from the top-level "model" field of the response
+        const modelName: string | null = responseWithReportData.model ?? null;
+
         // collectedEvents is no longer needed once the completion event has been extracted
         collectedEvents.length = 0;
 
@@ -128,7 +135,7 @@ export default {
         const generatedReport = findByTypeInJSON(responseWithReportData, "output_text")?.text ?? "";
         if (generatedReport == ""){
           console.log(`Perplexity output structure differs from expected, unable to get output text`);
-          console.log(JSON.stringify(responseWithReportData, null, 2));  
+          console.log(JSON.stringify(responseWithReportData, null, 2));
           throw new Error(`Perplexity output structure differs from expected, unable to get output text`);
         }
 
@@ -159,15 +166,67 @@ export default {
 
         console.log("Report and citations successfully generated");
 
+        // Search for the ministry's last 3 Form 990s
+        const form990Urls: string[] = await (async () => {
+          const res = await fetch('https://api.perplexity.ai/search', {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${PERPLEXITY_API_KEY}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              query: `Get the last 3 990s of ${ministryName}(the one ${identifiableFact})`,
+              max_results: 3,
+              search_context_size: 'low',
+            }),
+          });
+          if (!res.ok) {
+            console.log(`990 search failed: ${res.status}`);
+            return [];
+          }
+          const data = await res.json();
+          const results: string[] = (data.results ?? [])
+            .map((r: any) => r.url)
+            .filter((u: any) => typeof u === 'string');
+          console.log(`Found ${results.length} 990 URLs`);
+          return results;
+        })();
+
+        // Search for the ministry's last 3 annual reports
+        const annualReportUrls: string[] = await (async () => {
+          const res = await fetch('https://api.perplexity.ai/search', {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${PERPLEXITY_API_KEY}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              query: `Get the last 3 annual reports of ${ministryName}(the one ${identifiableFact})`,
+              max_results: 3,
+              search_context_size: 'low',
+            }),
+          });
+          if (!res.ok) {
+            console.log(`Annual report search failed: ${res.status}`);
+            return [];
+          }
+          const data = await res.json();
+          const results: string[] = (data.results ?? [])
+            .map((r: any) => r.url)
+            .filter((u: any) => typeof u === 'string');
+          console.log(`Found ${results.length} annual report URLs`);
+          return results;
+        })();
+
         // At the end of the background task, update the new row with the generated report
         // (reportWithLinks has inline markdown citations; urls array is stored separately for reference)
+        const updatePayload: Record<string, any> = {
+          generated_report: reportWithLinks,
+          status: "not_verified",
+          generated_citations: urls,
+          NRM_version: nrmVersion,
+          model_name: modelName,
+        };
+        if (form990Urls.length > 0) updatePayload["990s"] = form990Urls;
+        if (annualReportUrls.length > 0) updatePayload["annual_reports"] = annualReportUrls;
+
         const { error: updateError } = await ctx.supabase
           .from(MINISTRY_REPORTS_TABLE)
-          .update({
-            generated_report: reportWithLinks,
-            status: "not_verified",
-            generated_citations: urls
-          })
+          .update(updatePayload)
           .eq(ID_COLUMN_NAME, rowId);
         
         if (updateError) {

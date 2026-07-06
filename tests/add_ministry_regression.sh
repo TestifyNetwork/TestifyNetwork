@@ -11,6 +11,14 @@ set -euo pipefail
 
 PUBLISHABLE_KEY="sb_publishable_AAHOHAHBpgtHBCsLslwZ8w_Y21Nuxmy"
 
+# Load PERPLEXITY_KEY from .env.keys
+if [[ -f ".env.keys" ]]; then
+  PERPLEXITY_API_KEY=$(grep '^PERPLEXITY_KEY=' .env.keys | cut -d'=' -f2-)
+else
+  echo "Warning: .env.keys not found, report comparison will be skipped"
+  PERPLEXITY_API_KEY=""
+fi
+
 if [[ "${LOCAL:-0}" == "1" ]]; then
   # Requires: supabase start && supabase functions serve add_ministry --env-file ./supabase/.env.local
   FUNCTIONS_URL="http://localhost:54321/functions/v1"
@@ -24,11 +32,11 @@ fi
 
 
 # ── Ministry list ─────────────────────────────────────────────────────────────
-# Format: "Ministry Name|identifiable fact"
+# Format: "Ministry Name|identifiable fact|expected report file"
 MINISTRIES=(
-  "CRU|the campus ministry"
-  "World Vision|the one that helps children in Africa"
-  "Samaritan's Purse|the one that delivers Christmas shoe boxes"
+  "CRU|the campus ministry|tests/expected_reports/CRU.md"
+  "World Vision|the one that helps children in Africa|tests/expected_reports/World Vision.md"
+  "Samaritan's Purse|the one that delivers Christmas shoe boxes|tests/expected_reports/Samaritans Purse.md"
 )
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -55,6 +63,73 @@ db_query_by_id() {
     --header "Authorization: Bearer ${AUTH_KEY}" \
     --header "Accept: application/json" \
     "${REST_URL}/ministry_reports?ministry_id=eq.${id}&select=ministry_id,ministry_name,status"
+}
+
+db_fetch_report() {
+  # Usage: db_fetch_report <ministry_id>
+  # Returns the generated_report text for a specific ministry_id
+  local id="$1"
+  curl --silent \
+    --header "apikey: ${AUTH_KEY}" \
+    --header "Authorization: Bearer ${AUTH_KEY}" \
+    --header "Accept: application/json" \
+    "${REST_URL}/ministry_reports?ministry_id=eq.${id}&select=generated_report" \
+  | python3 -c "import sys,json; data=json.load(sys.stdin); print(data[0]['generated_report'] if data else '')"
+}
+
+compare_reports_with_perplexity() {
+  # Usage: compare_reports_with_perplexity <generated_report> <expected_report_file>
+  # Returns "PASS" or "FAIL: <reason>" on stdout
+  local generated="$1"
+  local expected
+  expected=$(cat "$2")
+  local perplexity_key="${PERPLEXITY_API_KEY:-}"
+
+  if [[ -z "$perplexity_key" ]]; then
+    echo "SKIP: PERPLEXITY_API_KEY not set"
+    return
+  fi
+
+  local prompt
+  prompt=$(python3 -c "
+import json, sys
+generated = sys.argv[1]
+expected = sys.argv[2]
+prompt = (
+  'You are evaluating two nonprofit ministry research reports. '
+  'Compare the GENERATED report to the EXPECTED report and determine if they are equivalent. '
+  'Evaluate on ALL of the following criteria:\n'
+  '1. SECTIONS: Do both reports contain all the same sections (e.g. Mission, History, Leadership, Financials, Red Flags, etc.)?\n'
+  '2. CONTENT: Is the general content in each section the same (same key facts, figures, and findings — minor wording differences are acceptable)?\n'
+  '3. CITATIONS: Does the generated report include inline citations with URLs, as the expected report does?\n'
+  '4. FORMAT: Is the generated report formatted in Markdown (not HTML)? Does it use the same structural elements (tables, headers, bullet points)?\n'
+  '5. KEY FACTS: Are critical specific facts correct — such as EIN, founding year, headquarters address, president name, and any financial figures?\n\n'
+  'Respond with PASS or FAIL on the first line only. '
+  'On the following lines, provide a brief explanation of your evaluation regardless of whether it passed or failed.\n\n'
+  '<EXPECTED REPORT>\n' + expected + '\n</EXPECTED REPORT>\n\n'
+  '<GENERATED REPORT>\n' + generated + '\n</GENERATED REPORT>'
+)
+print(json.dumps({'model': 'sonar', 'messages': [{'role': 'user', 'content': prompt}]}))
+" "$generated" "$expected")
+
+  local response
+  response=$(curl --silent --max-time 60 \
+    --request POST "https://api.perplexity.ai/chat/completions" \
+    --header "Authorization: Bearer ${perplexity_key}" \
+    --header "Content-Type: application/json" \
+    --data "$prompt")
+
+  python3 -c "
+import sys, json
+data = json.loads(sys.argv[1])
+content = data.get('choices', [{}])[0].get('message', {}).get('content', '').strip()
+lines = content.split('\n')
+verdict = lines[0].strip()
+explanation = '\n'.join(lines[1:]).strip()
+print(verdict)
+if explanation:
+    print(explanation)
+" "$response"
 }
 
 db_delete() {
@@ -88,7 +163,7 @@ FAIL=0
 # ── Run tests ─────────────────────────────────────────────────────────────────
 
 for entry in "${MINISTRIES[@]}"; do
-  IFS='|' read -r MINISTRY_NAME IDENTIFIABLE_FACT <<< "$entry"
+  IFS='|' read -r MINISTRY_NAME IDENTIFIABLE_FACT EXPECTED_REPORT_FILE <<< "$entry"
 
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo "Ministry: ${MINISTRY_NAME}"
@@ -166,7 +241,30 @@ for entry in "${MINISTRIES[@]}"; do
 
     if [[ "$COMPLETED" == "true" ]]; then
       echo "Background task completed successfully"
-      # 5. Delete the test row
+
+      # 5. Compare generated report against expected using Perplexity
+      if [[ -f "$EXPECTED_REPORT_FILE" ]]; then
+        echo "Comparing generated report against ${EXPECTED_REPORT_FILE}..."
+        GENERATED_REPORT=$(db_fetch_report "$NEW_ID")
+        COMPARISON=$(compare_reports_with_perplexity "$GENERATED_REPORT" "$EXPECTED_REPORT_FILE")
+        COMPARISON_VERDICT=$(echo "$COMPARISON" | head -n 1)
+        COMPARISON_EXPLANATION=$(echo "$COMPARISON" | tail -n +2)
+        echo "Report comparison: ${COMPARISON_VERDICT}"
+        if [[ -n "$COMPARISON_EXPLANATION" ]]; then
+          echo "$COMPARISON_EXPLANATION"
+        fi
+        if [[ "$COMPARISON_VERDICT" != "PASS" ]]; then
+          echo "FAIL: report comparison failed"
+          ((FAIL++))
+          db_delete "$NEW_ID"
+          echo "Test row deleted"
+          continue
+        fi
+      else
+        echo "No expected report file found at ${EXPECTED_REPORT_FILE}, skipping comparison"
+      fi
+
+      # 6. Delete the test row
       db_delete "$NEW_ID"
       echo "Test row deleted"
       echo "PASS"
