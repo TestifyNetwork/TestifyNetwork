@@ -64,4 +64,29 @@ app.get(`/${SERVER_PREFIX}/ministry/:id`, async (c) => {
   return c.json({ ministry: data }, 200);
 });
 
+app.patch(`/${SERVER_PREFIX}/ministry/:id/leader`, async (c) => {
+  const id = c.req.param("id");
+  let body: { leaderName?: string; leaderEmail?: string };
+  try {
+    body = await c.req.json();
+  } catch {
+    return c.json({ error: "Invalid JSON body" }, 400);
+  }
+  if (!body.leaderName?.trim() || !body.leaderEmail?.trim()) {
+    return c.json({ error: "leaderName and leaderEmail are required" }, 400);
+  }
+  const { error } = await supabase
+    .from(TABLE)
+    .update({
+      [COL.MINISTRY_LEADER_NAME]: body.leaderName.trim(),
+      [COL.MINISTRY_LEADER_EMAIL]: body.leaderEmail.trim(),
+    })
+    .eq(COL.ID, id);
+  if (error) {
+    console.log(`Error updating leader for ministry "${id}": ${error.message}`);
+    return c.json({ error: error.message }, 500);
+  }
+  return c.json({ ok: true }, 200);
+});
+
 Deno.serve(app.fetch);

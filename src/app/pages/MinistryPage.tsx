@@ -54,6 +54,10 @@ export function MinistryPage() {
   const [connections, setConnections] = useState<Record<string, boolean>>({});
   const [testifyStatus, setTestifyStatus] = useState<Record<string, boolean>>({});
   const chatBottomRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<Partial<Record<Section, HTMLDivElement>>>({});
+  const [braceNotchY, setBraceNotchY] = useState(50);
+  const [braceHeight, setBraceHeight] = useState(200);
 
   const citations = ministry?.generated_citations ?? [];
   const processedReport = ministry?.generated_report
@@ -92,6 +96,25 @@ export function MinistryPage() {
     setMap: React.Dispatch<React.SetStateAction<Record<string, boolean>>>,
     key: string
   ) => setMap((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  useEffect(() => {
+    const update = () => {
+      const tabEl = tabRefs.current[activeSection];
+      const contentEl = contentRef.current;
+      if (!tabEl || !contentEl) return;
+      const tabRect = tabEl.getBoundingClientRect();
+      const contentRect = contentEl.getBoundingClientRect();
+      setBraceHeight(contentRect.height);
+      setBraceNotchY(tabRect.top + tabRect.height / 2 - contentRect.top);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    if (contentRef.current) ro.observe(contentRef.current);
+    const tabEl = tabRefs.current[activeSection];
+    if (tabEl) ro.observe(tabEl);
+    window.addEventListener("scroll", update, true);
+    return () => { ro.disconnect(); window.removeEventListener("scroll", update, true); };
+  }, [activeSection, ministry]);
 
   if (loading) {
     return (
@@ -162,7 +185,7 @@ export function MinistryPage() {
         <div className="flex flex-col lg:flex-row gap-8 items-start">
 
           {/* Left sidebar */}
-          <aside className="w-full lg:w-64 shrink-0 lg:sticky lg:top-24 space-y-5">
+          <aside className="w-full lg:w-64 shrink-0 lg:sticky lg:top-24 space-y-5 lg:overflow-y-auto lg:max-h-[calc(100vh-6rem)]">
 
             {/* Mission */}
             {ministry.mission && (
@@ -217,43 +240,84 @@ export function MinistryPage() {
             <div className="h-px bg-border" />
 
             {/* Section nav */}
-            <nav className="space-y-1">
-              {sections.map(({ key, label, icon: Icon, blurb }) => (
-                <button
-                  key={key}
-                  onClick={() => setActiveSection(key)}
-                  className={`w-full text-left rounded-xl px-4 py-3 transition-colors ${
-                    activeSection === key
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-secondary text-foreground"
-                  }`}
-                >
-                  <div className="flex items-center gap-2.5 mb-0.5">
-                    <Icon
-                      className={`w-4 h-4 shrink-0 ${activeSection === key ? "text-primary-foreground" : "text-primary"}`}
-                      strokeWidth={1.5}
-                    />
-                    <span className="text-sm" style={{ fontFamily: "'Lora', serif", fontWeight: 600 }}>
-                      {label}
-                    </span>
+            <nav className="space-y-2">
+              {sections.map(({ key, label, icon: Icon, blurb }) => {
+                const isActive = activeSection === key;
+                return (
+                  <div
+                    key={key}
+                    ref={(el) => { tabRefs.current[key] = el ?? undefined; }}
+                  >
+                    <button
+                      onClick={() => setActiveSection(key)}
+                      className={`w-full text-left rounded-lg px-4 py-3.5 transition-all border ${
+                        isActive
+                          ? "bg-primary text-primary-foreground border-primary shadow-md"
+                          : "bg-card border-border hover:bg-secondary hover:border-primary/40 text-foreground"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 mb-1">
+                        <Icon
+                          className={`w-4 h-4 shrink-0 ${isActive ? "text-primary-foreground" : "text-primary"}`}
+                          strokeWidth={1.5}
+                        />
+                        <span className="text-sm" style={{ fontFamily: "'Lora', serif", fontWeight: 600 }}>
+                          {label}
+                        </span>
+                      </div>
+                      <p className={`text-xs leading-snug pl-6 ${isActive ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                        {blurb}
+                      </p>
+                    </button>
                   </div>
-                  <p className={`text-xs leading-snug pl-6 ${activeSection === key ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
-                    {blurb}
-                  </p>
-                </button>
-              ))}
+                );
+              })}
             </nav>
           </aside>
 
           {/* Right content */}
-          <div className="flex-1 min-w-0">
+          <div ref={contentRef} className="flex-1 min-w-0 bg-primary rounded-xl p-6 relative">
+            {/* Dynamic brace connector */}
+            {(() => {
+              const svgH = Math.max(braceHeight, braceNotchY + 40);
+              return (
+                <div
+                  className="absolute top-0 left-0 pointer-events-none"
+                  style={{ transform: "translateX(-100%)", width: "2rem", height: svgH }}
+                >
+                  <svg
+                    width="32"
+                    height={svgH}
+                    viewBox={`0 0 32 ${svgH}`}
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d={[
+                        `M 30 0`,
+                        `C 30 0 10 0 10 16`,
+                        `L 10 ${braceNotchY - 18}`,
+                        `C 10 ${braceNotchY - 5} 2 ${braceNotchY} 2 ${braceNotchY}`,
+                        `C 2 ${braceNotchY} 10 ${braceNotchY + 5} 10 ${braceNotchY + 18}`,
+                        `L 10 ${svgH - 16}`,
+                        `C 10 ${svgH} 30 ${svgH} 30 ${svgH}`,
+                      ].join(" ")}
+                      stroke="var(--primary)"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+              );
+            })()}
 
             {/* Research Report */}
             {activeSection === "research" && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1.375rem" }}>Research Report</h2>
-                  <p className="text-muted-foreground text-sm">AI-generated facts and analytics for {ministry.ministry_name}.</p>
+                  <h2 className="text-primary-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1.375rem" }}>Research Report</h2>
+                  <p className="text-primary-foreground/70 text-sm">AI-generated facts and analytics for {ministry.ministry_name}.</p>
                 </div>
 
                 {processedReport ? (
@@ -323,8 +387,8 @@ export function MinistryPage() {
             {/* Ministry Leader Interview */}
             {activeSection === "interview" && (
               <div className="space-y-6">
-                <h2 className="text-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1.375rem" }}>Ministry Leader Interview</h2>
-                <p className="text-muted-foreground text-sm mb-6">Conversations with the leadership of {ministry.ministry_name}.</p>
+                <h2 className="text-primary-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1.375rem" }}>Ministry Leader Interview</h2>
+                <p className="text-primary-foreground/70 text-sm mb-6">Conversations with the leadership of {ministry.ministry_name}.</p>
                 <div className="bg-card border border-border rounded-xl p-8 text-center">
                   <Mic2 className="w-10 h-10 text-muted-foreground/40 mx-auto mb-4" strokeWidth={1.5} />
                   <p className="text-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600 }}>No interviews yet</p>
@@ -336,8 +400,8 @@ export function MinistryPage() {
             {/* Testimonies */}
             {activeSection === "testimonies" && (
               <div className="space-y-6">
-                <h2 className="text-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1.375rem" }}>Testimonies</h2>
-                <p className="text-muted-foreground text-sm mb-6">Stories and experiences shared by the community.</p>
+                <h2 className="text-primary-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1.375rem" }}>Testimonies</h2>
+                <p className="text-primary-foreground/70 text-sm mb-6">Stories and experiences shared by the community.</p>
                 <div className="bg-card border border-border rounded-xl p-8 text-center">
                   <BookOpen className="w-10 h-10 text-muted-foreground/40 mx-auto mb-4" strokeWidth={1.5} />
                   <p className="text-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600 }}>No testimonies yet</p>
@@ -349,8 +413,8 @@ export function MinistryPage() {
             {/* Dialogue Channel */}
             {activeSection === "dialogue" && (
               <div>
-                <h2 className="text-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1.375rem" }}>Dialogue Channel</h2>
-                <p className="text-muted-foreground text-sm mb-6">Open discussion and questions about {ministry.ministry_name}.</p>
+                <h2 className="text-primary-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1.375rem" }}>Dialogue Channel</h2>
+                <p className="text-primary-foreground/70 text-sm mb-6">Open discussion and questions about {ministry.ministry_name}.</p>
                 <div className="bg-card border border-border rounded-xl flex flex-col" style={{ minHeight: "420px" }}>
                   <div className="flex-1 p-5 space-y-5 overflow-y-auto" style={{ maxHeight: "420px" }}>
                     {chatMessages.length === 0 && (
@@ -391,15 +455,15 @@ export function MinistryPage() {
                     </div>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground mt-3">Conversations are moderated for respectful, faith-affirming dialogue.</p>
+                <p className="text-xs text-primary-foreground/60 mt-3">Conversations are moderated for respectful, faith-affirming dialogue.</p>
               </div>
             )}
 
             {/* Documents */}
             {activeSection === "documents" && (
               <div className="space-y-6">
-                <h2 className="text-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1.375rem" }}>Annual Report, 990, Newsletters</h2>
-                <p className="text-muted-foreground text-sm mb-6">Official filings and publications from {ministry.ministry_name}.</p>
+                <h2 className="text-primary-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1.375rem" }}>Annual Report, 990, Newsletters</h2>
+                <p className="text-primary-foreground/70 text-sm mb-6">Official filings and publications from {ministry.ministry_name}.</p>
                 <div className="bg-card border border-border rounded-xl p-8 text-center">
                   <ScrollText className="w-10 h-10 text-muted-foreground/40 mx-auto mb-4" strokeWidth={1.5} />
                   <p className="text-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600 }}>No documents yet</p>
@@ -411,8 +475,8 @@ export function MinistryPage() {
             {/* Private Notes */}
             {activeSection === "notes" && (
               <div className="space-y-6">
-                <h2 className="text-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1.375rem" }}>My Private Notes</h2>
-                <p className="text-muted-foreground text-sm mb-6">Personal notes visible only to you. Not shared with anyone.</p>
+                <h2 className="text-primary-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1.375rem" }}>My Private Notes</h2>
+                <p className="text-primary-foreground/70 text-sm mb-6">Personal notes visible only to you. Not shared with anyone.</p>
                 <div className="bg-card border border-border rounded-xl overflow-hidden">
                   <textarea
                     value={privateNotes}
@@ -429,7 +493,7 @@ export function MinistryPage() {
                     </button>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground">Your notes are stored locally and never shared with the ministry or other users.</p>
+                <p className="text-xs text-primary-foreground/60">Your notes are stored locally and never shared with the ministry or other users.</p>
               </div>
             )}
 

@@ -225,8 +225,29 @@ export function SearchPage() {
   }, [query, ministries]);
 
   const reportFound = pollPhase === "found" && foundMinistry?.status === "not_verified";
+  const reportError = pollPhase === "found" && foundMinistry?.status === "error";
+  const reportReady = reportFound || reportError;
   const isCorrect = confirmState === "correct";
   const isIncorrect = confirmState === "incorrect";
+
+  const handleCompleteSubmission = async () => {
+    if (!foundMinistry || !leaderName.trim() || !leaderEmail.trim()) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`${BASE}${API_ROUTES.MINISTRY_LEADER(foundMinistry.ministry_id)}`, {
+        method: "PATCH",
+        headers: { ...serverHeaders, "Content-Type": "application/json" },
+        body: JSON.stringify({ leaderName: leaderName.trim(), leaderEmail: leaderEmail.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? `Error ${res.status}`);
+      closeModal();
+    } catch (e) {
+      setSubmitError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">
@@ -449,12 +470,20 @@ export function SearchPage() {
               </div>
 
               {/* ── 3. Report preview ─────────────────────────────────── */}
-              <div className={`transition-opacity duration-500 ${reportFound ? "opacity-100" : "opacity-30 pointer-events-none"}`}>
+              <div className={`transition-opacity duration-500 ${reportReady ? "opacity-100" : "opacity-30 pointer-events-none"}`}>
                 <div className="h-px bg-border mb-6" />
                 <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3" style={{ fontFamily: "'Inter', sans-serif" }}>
                   Report Preview
                 </p>
-                {reportFound && foundMinistry?.generated_report ? (
+                {reportError ? (
+                  <div className="bg-destructive/10 border border-destructive/30 rounded-xl p-4 flex items-start gap-3">
+                    <XCircle className="w-4 h-4 text-destructive shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-medium text-destructive" style={{ fontFamily: "'Lora', serif" }}>Generation failed</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">There was an error generating the report for this ministry. Please try again or contact support.</p>
+                    </div>
+                  </div>
+                ) : reportFound && foundMinistry?.generated_report ? (
                   <div className="bg-card border border-border rounded-xl p-4 text-xs leading-relaxed overflow-hidden" style={{ maxHeight: "200px" }}>
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
@@ -483,7 +512,7 @@ export function SearchPage() {
               </div>
 
               {/* ── 4. Correct / Incorrect ────────────────────────────── */}
-              <div className={`transition-opacity duration-500 ${reportFound && confirmState === "pending" ? "opacity-100" : reportFound ? "opacity-100" : "opacity-30 pointer-events-none"}`}>
+              <div className={`transition-opacity duration-500 ${reportFound ? "opacity-100" : "opacity-30 pointer-events-none"}`}>
                 <div className="h-px bg-border mb-6" />
                 <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3" style={{ fontFamily: "'Inter', sans-serif" }}>
                   Is this the right ministry?
@@ -575,12 +604,14 @@ export function SearchPage() {
                       className="w-full bg-muted border border-border rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                     />
                   </div>
+                  {submitError && <p className="text-destructive text-xs">{submitError}</p>}
                   <button
-                    disabled={!leaderName.trim() || !leaderEmail.trim()}
+                    onClick={handleCompleteSubmission}
+                    disabled={submitting || !leaderName.trim() || !leaderEmail.trim()}
                     className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground py-2.5 rounded-lg text-sm font-medium disabled:opacity-40 hover:opacity-90 transition-opacity"
                   >
-                    <CheckCircle className="w-4 h-4" />
-                    Complete Submission
+                    {submitting ? <Loader className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
+                    {submitting ? "Saving…" : "Complete Submission"}
                   </button>
                 </div>
               </div>

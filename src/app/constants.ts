@@ -24,6 +24,7 @@ export const API_ROUTES = {
   HEALTH: `/${SERVER_PREFIX}/health`,
   MINISTRIES: `/${SERVER_PREFIX}/ministries`,
   MINISTRY: (id: string) => `/${SERVER_PREFIX}/ministry/${encodeURIComponent(id)}`,
+  MINISTRY_LEADER: (id: string) => `/${SERVER_PREFIX}/ministry/${encodeURIComponent(id)}/leader`,
 } as const;
 
 // ─── Database – Ministry Reports table ───────────────────────────────────────
@@ -44,7 +45,11 @@ export const DB = {
     REPORT: "generated_report",
     CREATED_AT: "created_at",
     CITATIONS: "generated_citations",
-
+    NRM_VERSION: "NRM_version",
+    IRS_REPORTS: "990s",
+    ANNUAL_REPORTS: "annual_reports",
+    MINISTRY_LEADER_NAME: "ministry_leader_name",
+    MINISTRY_LEADER_EMAIL: "ministry_leader_email"
   },
 } as const;
 
