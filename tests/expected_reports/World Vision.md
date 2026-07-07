@@ -1,107 +1,104 @@
-```text
-NRM Formatting Note (limitation): This report is delivered in Markdown per request. When exporting to PDF (NRM §2.4), set the document font to Georgia throughout.
-```
+# World Vision (World Vision, Inc., U.S.) — NRM Profile (v1.4)
 
-# World Vision, Inc. (U.S.)
-
-**Ministry logo (limitation):** An official logo download page exists on World Vision’s website, but an embeddable direct-image URL could not be reliably retrieved in this environment. Official logo resources: https://www.worldvision.org/corporate/ways-to-give/resources-logo/  
+| Identity | Details |
+|---|---|
+| Ministry name | **World Vision (World Vision, Inc., U.S.)** |
+| Ministry logo | **Limitation:** A usable **official logo image file** from World Vision’s official site could not be reliably retrieved in this environment for inline placement. World Vision maintains a logo/resources page on its official website (“Proud Supporter Resources and Logo”).[^wv-logo-page] |
+| Website | https://www.worldvision.org[^wv-about] |
+| Headquarters (per Form 990) | Federal Way, WA (mailing: PO Box 9716, Federal Way, WA 98063-9716)[^propublica] |
+| EIN | **95-1922279**[^propublica] |
+| Output-format limitation (NRM §2.4) | NRM calls for PDF as the primary deliverable. This response is provided in **Markdown** as requested by the user. |
+| Font limitation (NRM §2.1) | NRM specifies Georgia font. Standard Markdown cannot enforce font selection across viewers without HTML/CSS (and HTML is disallowed by the user). |
 
 ---
 
 ## Section 1 — Mission, Vision & Ministry Purpose
 
-### Official mission / vision (verbatim)
+### Official mission (verbatim)
+> **“World Vision is an international partnership of Christians whose mission is to follow our Lord and Savior Jesus Christ in working with the poor and oppressed to promote human transformation, seek justice, and bear witness to the good news of the kingdom of God.”**[^wv-mission-values]
 
-**Mission (World Vision International):**  
-“**World Vision is an international partnership of Christians whose mission is to follow our Lord and Saviour Jesus Christ in working with the poor and oppressed to promote human transformation, seek justice and bear witness to the good news of the Kingdom of God.**”[^1]
+### Official vision/prayer (verbatim)
+World Vision’s global vision language is:
+- **Vision:** “Our vision for every child, life in all its fullness.”  
+- **Prayer:** “Our prayer for every heart, the will to make it so.”  
+This vision statement is described as inspired by **John 10:10**.[^wvi-vision-values][^wv-faith-in-jesus]
 
-**Vision / prayer (World Vision International):**  
-“**Our vision for every child, life in all its fullness.**  
-**Our prayer for every heart, the will to make it so.**” (Inspired by John 10:10)[^1]
-
-**U.S. self-description:** World Vision describes itself as “a faith-based global charity powered by Jesus’ love.”[^2]
+### Stated ministry purpose (plain-language synthesis)
+World Vision describes itself as a **faith-based global charity powered by Jesus’ love**, serving children and families worldwide through relief, development, and related advocacy—aiming at lasting, community-owned transformation and ultimately “a loving goodbye” as communities stand on their own.[^wv-about]
 
 ### Section 1.1 — Ministry Summary *(required subsection)*
 
 | Field | Descriptor |
 |---|---|
-| Service Location | International |
-| People Served | Children; Poor |
-| Ministry Purpose | Provide loving care (holistic relief & development) |
+| Service Location | **International** (presence in nearly 100 countries is repeatedly stated)[^wv-about][^wv-ceo-bio] |
+| People Served | **Children, Families; Poor / Vulnerable**[^wv-about][^wv-fin-accountability] |
+| Ministry Purpose | **Feed, Clothe, Shelter (physical relief) + long-term development** *(dual descriptor used because World Vision explicitly emphasizes both emergency aid and sustained community development as core work.)*[^wv-about] |
 
 ---
 
 ## Section 2 — Core Values
 
-World Vision (global partnership) publishes **six core values**:[^1]
+World Vision U.S. publishes “Mission & Values” content using “We are…” identity statements that function as core values:[^wv-mission-values]
 
-1. **We are Christian** — Identity and motivation are centered in Christ.[^1]  
-2. **We are committed to the poor** — Prioritizes serving poor and oppressed people and seeking justice.[^1]  
-3. **We value people** — Emphasizes dignity and intrinsic worth of each person.[^1]  
-4. **We are stewards** — Views resources as a “sacred trust,” emphasizing accountability.[^3]  
-5. **We are partners** — Works collaboratively with communities, donors, churches, and others.[^1]  
-6. **We are responsive** — Seeks urgency and responsiveness to need.[^1]
+- **We are Christian** — World Vision says its beliefs are founded on the Bible and affirms Trinitarian belief.[^wv-mission-values]  
+- **We are committed to the poor** — frames service to vulnerable people as driven by Jesus’ heart and a holistic understanding of the gospel of the Kingdom.[^wv-mission-values]  
+- **We value people** — grounds human dignity in the imago Dei (image of God).[^wv-mission-values]  
+- **We are stewards** — describes resources as a sacred trust from God and emphasizes third-party accountability and transparency.[^wv-mission-values][^wv-fin-accountability]  
+- **We are partners** — emphasizes unity in the Body of Christ, partnership across the World Vision global partnership, and cooperation with other humanitarian organizations.[^wv-mission-values]  
+- **We are responsive** — emphasizes rapid emergency response and thoughtful long-term solutions.[^wv-mission-values]
 
 ---
 
 ## Section 3 — Scripture Anchors & Theological Framework
 
-### Public Scripture anchors (as published)
+### Public Scripture anchors cited by World Vision
+- **John 10:10** — “life in all its fullness” is repeatedly presented as a guiding vision, explicitly linked to this verse.[^wvi-vision-values][^wv-faith-in-jesus]  
+- **2 Corinthians 8:21** — used on the financial accountability page to frame transparent stewardship (“…what is right…in the eyes of the Lord… and…man”).[^wv-fin-accountability]  
+- **1 Timothy 3:2** — World Vision says it seeks to conduct itself “above reproach,” citing this verse.[^wv-about]
 
-- **John 10:10** — Vision statement “life in all its fullness” is explicitly cited as the inspiration/basis of the vision.[^1]  
-- **1 Timothy 3:2** — World Vision U.S. applies “above reproach” language to ethical conduct.[^2]  
-- **2 Corinthians 8:21 (NIV)** — Used to emphasize transparent integrity in stewardship (“in the eyes of the Lord… and… man”).[^4]
+### Stated theological framework / doctrinal commitments
+World Vision U.S. publishes a formal **Statement of Faith** consistent with historic evangelical orthodoxy, including (verbatim highlights):[^wv-statement-faith]
+- The Bible as “**inspired, the only infallible, authoritative Word of God**”
+- **One God** eternally existing in **Father, Son, and Holy Spirit**
+- The **deity of Christ**, virgin birth, sinless life, miracles, atoning death, bodily resurrection, ascension, and personal return
+- Salvation requiring **regeneration of the Holy Spirit**
+- The present ministry of the Holy Spirit enabling godly life
+- Resurrection of saved and lost; spiritual unity of believers in Christ
 
-### Theological framework (from published Statement of Faith)
-
-World Vision U.S. publishes an explicitly evangelical statement of faith including (summary, with direct doctrinal points reflected verbatim on the page):  
-- **Scripture:** “the inspired, the only infallible, authoritative Word of God.”[^5]  
-- **Trinity:** one God in three Persons (Father, Son, Holy Spirit).[^5]  
-- **Christology & Gospel:** deity of Christ, virgin birth, sinless life, miracles, substitutionary atonement “through His shed blood,” bodily resurrection, ascension, and personal return.[^5]  
-- **Salvation:** regeneration by the Holy Spirit is “absolutely essential.”[^5]  
-- **Holy Spirit:** present ministry enabling godly living.[^5]  
-- **Final resurrection/judgment:** resurrection of saved and lost (life vs. damnation).[^5]  
-- **Unity of believers:** spiritual unity in Christ.[^5]
-
-**NRM biblical-lens note:** These doctrinal commitments are broadly consistent with historic orthodox Christianity and clearly affirm biblical authority and the exclusive necessity of the new birth (John 3) in line with the published statement.[^5]
+**NRM biblical-lens note:** These doctrinal commitments—especially the authority of Scripture and the centrality of Christ’s saving work—are materially aligned with core biblical teaching (e.g., 2 Tim. 3:16; 1 Cor. 15), and they set a clear Christian frame for a ministry operating in humanitarian contexts.
 
 ---
 
 ## Section 4 — History & Founding
 
-- **Founded:** **1950**.[^6][^7]  
-- **Founder:** **Dr. Bob Pierce**.[^6]  
-- **Longevity (U.S. messaging):** World Vision states, “For **75 years**, we’ve served through famine, disaster, and genocide.”[^2]  
-- **Scale (U.S. CEO bio):** World Vision is described as “one of the world’s largest Christian humanitarian organizations,” with “a presence in nearly 100 countries.”[^7]
+- **Founded:** **1950**[^wv-ceo-bio][^ministrywatch]  
+- **Founder:** **Dr. Bob Pierce** (as reported by MinistryWatch)[^ministrywatch]  
+- **Growth trajectory:** World Vision describes a 75-year history of serving through major crises (including “famine, disaster, and genocide”) and now describes a footprint in “nearly 100 countries.”[^wv-about][^wv-ceo-bio]
 
-**Evidentiary limitation:** This profile does not include a full milestone timeline (e.g., decade-by-decade expansions) because detailed primary-source historical timelines were not retrievable here beyond the founding year and current scale statements.
+**Limitation:** A full milestone timeline (major expansions, program launches, mergers, and governance shifts) typically requires deeper review of annual reports and/or historical summaries; only limited timeline detail was available from the sources captured in this research pass.
 
 ---
 
 ## Section 5 — Leadership & Governance
 
-### Senior leadership (current, from official sources)
+### Senior leadership (current)
+World Vision’s leadership page lists key executives including:[^wv-leadership]
+- **Edgar Sandoval Sr. — President and CEO** (described as bringing “a deep faith in Jesus Christ” to the mission)[^wv-leadership]  
+- Additional senior leaders listed (titles abbreviated here): Chief Partnerships Development Officer, CFO, Chief Impact Officer, Chief Legal & Compliance Officer, Chief People Officer, Chief Marketing Officer.[^wv-leadership]
 
-**President & CEO (World Vision U.S.): Edgar Sandoval Sr.**[^7]  
-- Joined World Vision in **2015** as COO; became President/CEO in **2018**.[^7]  
-- Education/career: Rutgers (industrial engineering & sociology), Wharton MBA; former Procter & Gamble executive (noted for #LikeAGirl campaign leadership).[^7]  
-- Program innovation: led launch of **Chosen®** sponsorship model (child chooses sponsor).[^7]
+### Board & governance
+- World Vision lists a **Fiscal Year 2026 board of directors** on its site (15 members shown, including Edgar Sandoval Sr. as a board member).[^wv-leadership]  
+- MinistryWatch also reports **board size: 15**.[^ministrywatch]  
 
-### Board & governance structure (available data)
+**Limitation:** The board’s committee structure, bylaws, term limits, and detailed independence policies typically require Form 990 governance sections and/or governance documents; only partial governance detail was available from captured sources.
 
-- **Board size (U.S.):** **15** (MinistryWatch listing).[^6]  
-- **Board chair (U.S.):** **Vonna Laue** (MinistryWatch listing).[^6]  
-- World Vision states its **board of directors** provides oversight for mission, budgets, sustainability, and transparency.[^4]
+### Compensation summary (Form 990; most recent 3 fiscal years available in captured data)
 
-### CEO compensation summary (Form 990; required table)
-
-**Limitation:** A three-year, officer-by-officer compensation extraction could not be completed from the source PDFs in this environment. A current Form 990 public copy exists for FY ending **09/30/2024** (Form year “2023” on the document), but line-by-line compensation figures were not retrievable here.[^8]
-
-| Fiscal year (FY end) | CEO name | CEO reportable compensation (Form 990) | Source |
-|---|---|---:|---|
-| 2025-09-30 | Edgar Sandoval Sr. |  | ProPublica record shows FY2025 filing exists; compensation not extracted here.[^9] |
-| 2024-09-30 | Edgar Sandoval Sr. |  | Form 990 public copy exists; compensation not extractable here.[^8] |
-| 2023-09-30 | Edgar Sandoval Sr. |  | ProPublica summary page lists FY2023 extracted finances; compensation not shown in the summary snippet.[^10] |
+| Fiscal year (ending) | Name | Role (as reported) | Reported compensation | Other compensation | Source |
+|---|---|---:|---:|---:|---|
+| Sept **2025** | Edgar Sandoval | President & CEO | $573,543 | $74,387 | ProPublica (Form 990 data)[^propublica] |
+| Sept **2024** | Edgar Sandoval | President & CEO | $542,879 | $80,472 | ProPublica (Form 990 data)[^propublica] |
+| Sept **2023** | Edgar Sandoval | President & CEO | $534,742 | $69,142 | ProPublica (Form 990 data)[^propublica] |
 
 ---
 
@@ -109,237 +106,191 @@ World Vision U.S. publishes an explicitly evangelical statement of faith includi
 
 ### 6a — Core Programs
 
-Below are major program “lanes” consistently emphasized in World Vision U.S. public materials, with available fruit/metrics.
+Below are major, publicly-forward programs and activity areas repeatedly emphasized by World Vision U.S., including the well-known **Gift Catalog** that enables donors to “buy animals for others.”
 
-1. **Child Sponsorship (incl. Chosen®)**
-   - **Purpose and activity:** Long-term support for vulnerable children and their communities.  
-   - **Fruit (reported):** “Last year… sponsors worldwide supported **2.8 million** registered children, including **865,000** children supported by U.S. donors.”[^4]  
-   - **Form 990 cost:** Not broken out by program line item here; see “Total program services” proxy below (FY2023–FY2025).[^11]
+#### 1) Child Sponsorship
+- **Purpose and activity:** Sponsors support children and community programming; World Vision frames sponsorship within broader community development.[^wv-fin-accountability]  
+- **Fruit (reported outcomes/scale):** “Last year, World Vision sponsors worldwide supported **2.8 million registered children**, including **865,000 children supported by U.S. donors**.”[^wv-fin-accountability]  
+- **Form 990 cost:** **Not separately disclosed by program** in captured sources (see limitation below).
 
-2. **Clean Water & Sanitation (WASH)**
-   - **Purpose and activity:** Water access and sanitation interventions.  
-   - **Fruit (reported):** World Vision claims to be “the leading nongovernmental provider of clean water in the developing world.”[^4]  
-   - **Form 990 cost:** Not broken out here; see “Total program services” proxy below.[^11]
+#### 2) Gift Catalog (including animals)
+- **Purpose and activity:** Donors can give specific goods/services—famously including **animals**—as “gifts that give back,” often with printable cards for gift-giving in someone’s honor.[^wv-giftcatalog][^wv-animals]  
+- **Examples of “animals” gifts (publicly listed):** “Goat,” “Goat and 2 chickens,” “Goat for a woman,” etc.[^wv-giftcatalog][^wv-animals]  
+- **Fruit:** World Vision frames animals/agriculture gifts as helping provide nutrition and livelihoods (e.g., milk/eggs/income), and the catalog is positioned as enabling sustainable change.[^wv-animals]  
+- **Form 990 cost:** **Not separately disclosed by program** in captured sources.
 
-3. **Emergency Response / Disaster Relief**
-   - **Purpose and activity:** Rapid response within 24–72 hours; relief supplies and recovery support.[^4]  
-   - **Fruit (reported):** “Last year, World Vision responded to **104 disasters**… in **70 countries**, assisting **35.6 million** people… including **18.6 million children**.”[^12]  
-   - **Form 990 cost:** Not broken out here; see “Total program services” proxy below.[^11]
+#### 3) Clean Water & Sanitation
+- **Purpose and activity:** World Vision highlights clean water/sanitation as a core impact area.[^wv-fin-accountability]  
+- **Fruit:** World Vision states, “We’re the **leading nongovernmental provider of clean water in the developing world**.”[^wv-fin-accountability]  
+- **Form 990 cost:** Not separately disclosed in captured sources.
 
-4. **Economic Empowerment / Livelihoods**
-   - **Purpose and activity:** Helping families break cycles of poverty (livelihood, resilience).[^4]  
-   - **Fruit (reported):** “We’ve helped millions of families break free from the cycle of poverty.”[^4]  
-   - **Form 990 cost:** Not broken out here; see “Total program services” proxy below.[^11]
+#### 4) Economic Empowerment / Livelihoods
+- **Purpose and activity:** Economic empowerment is listed among major impact areas.[^wv-fin-accountability]  
+- **Fruit:** World Vision states it has “helped **millions of families** break free from the cycle of poverty.”[^wv-fin-accountability]  
+- **Form 990 cost:** Not separately disclosed in captured sources.
 
-5. **Faith & Development (Church leader resourcing)**
-   - **Purpose and activity:** Training/equipping pastors and church leaders for community impact.  
-   - **Fruit (reported):** “We annually equip **over 50,000 pastors and church leaders**…”[^4]  
-   - **Form 990 cost:** Not broken out here; see “Total program services” proxy below.[^11]
+#### 5) Emergency Response / Disaster Relief
+- **Purpose and activity:** World Vision states it can respond within **24 to 72 hours** to disasters globally.[^wv-fin-accountability]  
+- **Fruit:** Rapid response claim (24–72 hours) is presented as a key capability.[^wv-fin-accountability]  
+- **Form 990 cost:** Not separately disclosed in captured sources.
 
-#### Multi-year financial summary (program proxy + efficiency)
+#### 6) Faith & Development / Church and leader equipping
+- **Purpose and activity:** World Vision describes partnering with pastors and Christian leaders and strengthening local churches in many contexts.[^wv-christian-faith]  
+- **Fruit:** “We annually equip over **50,000 pastors and church leaders** with resources and training to show Jesus’ love in their communities.”[^wv-fin-accountability]  
+- **Form 990 cost:** Not separately disclosed in captured sources.
 
-Using World Vision U.S. “Impact Report” financial highlights (operating view) for three years:[^11]
+**Program-cost limitation note (NRM-required):** The captured evidence set did not include the Form 990 functional expense breakdown by major program lines (or a note-level program-by-program allocation). Therefore, program “Form 990 cost” is listed as **not separately disclosed** in this report draft.
 
-| Metric | FY2023 | FY2024 | FY2025 |
-|---|---:|---:|---:|
-| Total operating revenue | $1,514M | $1,590M | $1,419M |
-| Total operating expenses | $1,538M | $1,516M | $1,426M |
-| Total program services | $1,366M | $1,320M | $1,223M |
-| Program efficiency ratio (program ÷ total expenses) | 88.8% | 87.1% | 85.7% |
+### Multi-year financial summary (minimum 3 years; parent organization)
 
-**Government/public-grant leverage (notable):** MinistryWatch cites **$636,564,976** in government grants in 2024; this aligns with the FY2024 public-grant totals shown in the same operating highlights (U.S. gov + other public grants).[^13][^11]
+| Fiscal year (ending) | Total revenue | Total expenses | Net income | Net assets (end of year) | Source |
+|---|---:|---:|---:|---:|---|
+| Sept **2025** | $1,423,305,144 | $1,423,738,245 | -$433,101 | $432,274,133 | ProPublica (Form 990 data)[^propublica] |
+| Sept **2024** | $1,583,717,582 | $1,512,990,777 | $70,726,805 | $428,779,073 | ProPublica (Form 990 data)[^propublica] |
+| Sept **2023** | $1,510,055,945 | $1,534,614,805 | -$24,558,860 | $339,824,343 | ProPublica (Form 990 data)[^propublica] |
 
-#### Revenue breakdown (FY2023–FY2025, operating categories)
+### Revenue & expense breakdown (as available)
+- ProPublica’s extracted Form 990 summary shows revenue dominated by **contributions** (e.g., FY2024 contributions: $1,568,297,243).[^propublica]  
+- MinistryWatch reports that, per Form 990, World Vision received **$636,564,976 in government grants in 2024**.[^ministrywatch]  
+- World Vision states: “In **2025, 86%** of World Vision’s **operating expenses** went to programs helping children, families, and communities in need.”[^wv-about]  
 
-From the same World Vision U.S. operating highlights:[^11]
-
-| Revenue category | FY2023 | FY2024 | FY2025 |
-|---|---:|---:|---:|
-| Private cash contributions | $608M | $718M | $634M |
-| U.S. government grants (food and cash) | $339M | $357M | $215M |
-| Other public grants (food and cash) | $322M | $279M | $296M |
-| Gifts-in-kind | $233M | $214M | $257M |
-| Other income (loss), net | $12M | $22M | $17M |
-| **Total operating revenue** | **$1,514M** | **$1,590M** | **$1,419M** |
-
-#### Expense breakdown (program / management / fundraising)
-
-**Limitation:** Full FY2023–FY2025 functional expense line items (including precise management & general and fundraising for each year) were not fully retrievable from the available excerpts. The program totals and total expense totals above are available and allow the program-efficiency ratio calculation.[^11]
-
-#### Investments / reserves (high-level)
-
-- ProPublica’s extracted Form 990 summary (FY ending **Sept 2023**) lists **investment income $12,137,077** and **net assets $339,824,343**.[^10]  
-- ProPublica’s extracted summary (FY ending **Sept 2025**) lists **net assets $432,274,133**.[^9]  
-- An audited, consolidated financial statement set exists for **FY2025** (“World Vision, Inc. and affiliates and its subsidiaries”) indicating audit oversight, but detailed balance sheet line items (cash/investments/liabilities) were not retrievable here.[^14]
+**Limitation:** A complete functional expense breakdown (program vs management & general vs fundraising) for each year typically comes directly from the Form 990 (Part IX) or audited statements. The captured source set includes the **program percentage claim (2025)** but not the full year-by-year functional table.
 
 ---
 
-### 6b — Subsidiary & Affiliated Ministry Research Protocol *(required)*
+## Section 6b — Subsidiary & Affiliated Ministry Research Protocol *(required)*
 
-**Identified subsidiaries/affiliates (from available sources): 3**  
-**Profiled as “significant” here: 1** (VisionFund International)  
-**Evidentiary limitation:** A full list from Form 990 Schedule R and/or the parent annual report affiliate notes could not be compiled in this environment.
+**Affiliates/subsidiaries identified (captured sources): 1**  
+**Affiliates/subsidiaries profiled below: 1**  
 
-#### 6b.1 — VisionFund International (microfinance subsidiary)
+### 6b.1 — World Vision International (global partnership affiliate relationship)
+1. **Ministry purpose and key programs:** World Vision describes itself (globally) as “an international partnership of Christians” pursuing child-focused flourishing (“life in all its fullness”) and bearing witness to the Kingdom of God.[^wvi-vision-values]  
+2. **Key impact metrics:** In captured sources, World Vision U.S. cites global sponsorship scale (2.8 million children worldwide) while being a U.S. member of this broader partnership.[^wv-fin-accountability][^wv-mission-values]  
+3. **Budget / expense figures:** Not available in captured sources for World Vision International as a separate consolidated entity.  
+4. **Accountability status:** World Vision International states it is **not required to file U.S. Form 990** but voluntarily discloses similar information; it also notes its microfinance subsidiary VisionFund International files a Form 990, and that World Vision Inc. is the U.S. fundraising affiliate filing a Form 990.[^wvi-990-appendix]  
+5. **Leadership:** Not available in captured sources.
 
-1. **Ministry purpose and key programs:** Microfinance / financial inclusion activity described by World Vision International as its “microfinance subsidiary.”[^15]  
-2. **Key impact metrics:** Not retrievable from primary VisionFund reporting here (limitation).  
-3. **Budget / expense figures:** Not retrievable here (limitation).  
-4. **Accountability status:** World Vision International notes VisionFund International “does file a Form 990.”[^15]  
-5. **Leadership:** Not retrievable here (limitation).  
-6. **Consolidation structure:** Not fully determinable here. World Vision U.S. FY2025 audited statements are described as consolidated for “affiliates and… subsidiaries,” suggesting some related entities may be consolidated, but which ones are included is not specified in the excerpt.[^14]
-
-#### 6b.2 — World Vision International University
-
-1. **Ministry purpose and key programs:** Not described in retrievable primary WV materials here (limitation).  
-2. **Key impact metrics / budget:** Not retrievable here (limitation).  
-3. **Accountability status:** Charity Navigator indicates this entity is “not rated” (insufficient data/eligibility), which is not itself an adverse finding but indicates limited third-party scoring coverage.[^16]  
-4. **Leadership:** Not retrievable here (limitation).  
-5. **Consolidation structure:** Unknown (limitation).[^16]
-
-#### 6b.3 — World Vision International (global partnership relationship)
-
-World Vision U.S. repeatedly describes itself as part of a broader World Vision global presence (“nearly 100 countries”).[^7] Separately, World Vision International states it is not required to file a U.S. Form 990 but voluntarily discloses comparable information, and distinguishes World Vision, Inc. as a U.S. affiliate that voluntarily files a Form 990 for U.S. donors.[^15]
-
-**Consolidation structure:** World Vision International and World Vision U.S. financials should not be assumed identical; this report primarily profiles **World Vision, Inc. (U.S.)** with selective global context where cited.[^15][^11]
+**Consolidation structure note:** World Vision U.S. describes itself as part of a World Vision partnership spanning nearly 100 countries.[^wv-mission-values] However, captured sources did not include Schedule R detail sufficient to map all legal entities and consolidation boundaries.
 
 ---
 
 ## Section 7 — Financial Statements & Financial Profile
 
-### Consolidated (parent) financial picture — World Vision, Inc. (U.S.)
+### Consolidated financial data (World Vision, Inc., U.S.)
+**Form 990 (multi-year):** See Section 6 multi-year table (FY2023–FY2025).[^propublica]
 
-**Three-year operating summary (see Section 6a table):** FY2023–FY2025 operating revenue roughly **$1.4B–$1.6B**, with program services roughly **$1.2B–$1.37B** and program efficiency roughly **85.7%–88.8%**.[^11]
+### Balance sheet highlights (as available from Form 990 extracts)
 
-### Form 990-based extracted indicators (selected)
+| Fiscal year (ending) | Total assets | Total liabilities | Net assets | Source |
+|---|---:|---:|---:|---|
+| Sept **2025** | $515,283,132 | $83,008,999 | $432,274,133 | ProPublica (Form 990 data)[^propublica] |
+| Sept **2024** | $506,632,573 | $77,853,500 | $428,779,073 | ProPublica (Form 990 data)[^propublica] |
+| Sept **2023** | $439,422,173 | $99,597,830 | $339,824,343 | ProPublica (Form 990 data)[^propublica] |
 
-- **FY ending Sept 2023 (ProPublica-extracted):** revenue **$1,510,055,945**; expenses **$1,534,614,805**; net assets **$339,824,343**.[^10]  
-- **FY ending Sept 2025 (ProPublica-extracted):** revenue **$1,423,305,144**; expenses **$1,423,738,245**; net assets **$432,274,133**.[^9]
+### Audited financial statements
+World Vision provides access to **“Consolidated Financial Statements (PDF)”** via its Annual Reports page.[^wv-annual-reports] A FY2024 audited consolidated financial statements PDF is publicly hosted.[^wv-fy24-audit-pdf]
 
-**Note on minor variance:** ProPublica-extracted Form 990 totals and the “operating” totals in the Impact Report may differ due to classification, non-operating items, consolidation scope, or presentation format; this report cites both where available and flags where reconciliation detail is not retrievable.[^9][^11]
-
-### Balance sheet highlights / investments / reserves
-
-- **Net assets:** at least **$339.8M (FY2023)** and **$432.3M (FY2025)** per ProPublica extracted summaries.[^10][^9]  
-- **Investments:** investment income is shown (e.g., FY2023 investment income **$12.1M**), but detailed portfolio allocation and reserve designations were not retrievable here.[^10]
-
-### Global context (not the parent’s Form 990)
-
-World Vision International’s **Global Annual Report 2024** reports total revenue **$3.31B (FY2024)** and “**84.6% yield to programming**” (global aggregation), with reported Africa programming expenditure of **$1.47B**.[^17]
+**Limitation:** The detailed audited note disclosures (investments, reserves, liquidity, related-party detail, and full functional expense breakdown) were not extractable from the captured evidence set in this tool-disabled pass.
 
 ---
 
 ## Section 8 — Watchdog Ratings & Accountability
 
-### Charity Navigator
-- World Vision states it has “earned four stars — the highest possible rating.”[^4]  
-- Charity Navigator maintains a profile page for World Vision (EIN **95-1922279**).[^18]  
-**Limitation:** The precise current numeric score/star badge text could not be extracted from the Charity Navigator page content in this environment beyond confirmation of the profile page’s existence and WV’s own published statement.[^18][^4]
+From World Vision’s own financial accountability page, the organization claims the following recognitions:[^wv-fin-accountability]
+- **Charity Navigator:** “Earned four stars — the highest possible rating.”[^wv-fin-accountability]  
+- **BBB Wise Giving Alliance:** “Accredited charity, meeting all standards for charitable accountability.”[^wv-fin-accountability]  
+- **ECFA:** “Charter member…”[^wv-fin-accountability]  
+- **Candid:** “Platinum seal of Transparency in 2024…”[^wv-fin-accountability]  
 
-### ECFA (Evangelical Council for Financial Accountability)
-- **Status:** ECFA **Charter Member** (World Vision, Inc.)[^19]  
-- **Member since:** **Nov 1, 1979**[^19]  
-- ECFA profile frames the ministry around “Jesus’ promise of life in all its fulness (John 10:10).”[^19]
+**Independent accountability confirmation (captured sources):**
+- **ECFA membership:** ECFA lists **World Vision, Inc.** as an **ECFA Charter Member**, **Member Since: November 1, 1979**.[^ecfa-profile][^ecfa-charter-list]
 
-### BBB Wise Giving Alliance
-- A BBB charity report page exists for World Vision (Federal Way, WA).[^20]  
-- BBB Wise Giving Alliance also listed “World Vision” among organizations meeting BBB standards in a donor advisory (July 17, 2020).[^21]  
-**Limitation:** The current BBB report’s detailed standard-by-standard evaluation text was not retrievable here.[^20]
-
-### MinistryWatch
-- **Transparency grade:** **A** (World Vision, Inc., U.S.).[^13]  
-- **Financial efficiency:** cited as **4 out of 5 stars** in a third-party article referencing MinistryWatch metrics.[^22]  
-- MinistryWatch also notes government grants received (2024 figure cited above).[^13]
+**Limitation:** The captured evidence set did not include independently captured pages for the current Charity Navigator numeric score/breakdown or BBB detail page—only World Vision’s self-report plus ECFA confirmation.
 
 ---
 
 ## Section 9 — Organizational Character (Biblical Lens)
 
-### Key sourced spiritual/mission posture indicators
+### Sourced indicators of spiritual posture & ministry character
+- World Vision explicitly frames identity in Christ: “World Vision is a **faith-based global charity powered by Jesus’ love**.”[^wv-about]  
+- It explicitly connects ethical conduct to Scripture: “conducting ourselves ‘**above reproach**’ (**1 Timothy 3:2**).”[^wv-about]  
+- It frames stewardship with Scripture: **2 Corinthians 8:21** is cited on the financial accountability page as a guiding principle for transparency and doing what is right in God’s sight and before people.[^wv-fin-accountability]  
+- Leadership quote presented by World Vision:  
+  > “I’m amazed by what happens when people of faith come together around a God-sized goal.” — **Edgar Sandoval Sr.,** President and CEO[^wv-about]
 
-- **Christ-centered motivation language:** “World Vision is a faith-based global charity powered by Jesus’ love.”[^2]  
-- **Ethical posture claim with Scripture:** “committed to the highest ethical standards,” citing being “above reproach” (1 Timothy 3:2).[^2]  
-- **Stewardship integrity Scripture:** “taking pains to do what is right… in the eyes of the Lord… and… man” (2 Corinthians 8:21).[^4]  
-- **CEO spiritual framing:** Edgar Sandoval Sr. expresses faith-driven vision: “I’m amazed by what happens when people of faith come together around a God-sized goal.”[^2]
-
-### Third-party / external descriptors (sourced)
-- ECFA describes World Vision as a “Christian relief and development organization” and ties its purpose to John 10:10.[^19]
-
-### Biblical-lens assessment (brief)
-Based on published statements, World Vision U.S. and the World Vision partnership present a **holistic mercy-ministry posture** that explicitly names Jesus Christ, affirms evangelical doctrine, and emphasizes stewardship and integrity using Scripture.[^5][^4] The stated aim to serve the poor and oppressed coheres with biblical commands to love neighbor and care for the vulnerable (e.g., James 1:27), while their explicit doctrinal statement guards against reducing the ministry to mere humanitarianism.[^5]  
-
-**Caveat:** This assessment is limited to verifiable published materials retrieved here and does not substitute for on-the-ground doctrinal/practice auditing.
+### Brief biblical-lens assessment
+Based on its published Statement of Faith and repeated public Scripture framing, World Vision U.S. presents itself as a **Christian ministry operating in humanitarian space**, seeking to combine tangible mercy with an explicit witness posture (“powered by Jesus’ love”) while emphasizing stewardship and accountability as obedience before God and man.[^wv-about][^wv-statement-faith][^wv-fin-accountability]  
+**Biblical-lens caution:** Because large-scale humanitarian work can drift into primarily secular metrics, ongoing clarity that eternal priorities (the gospel of Christ) remain central is important; World Vision’s public materials repeatedly assert that Christian faith is “central,” which is a positive indicator.[^wv-christian-faith][^wv-faith-in-jesus]
 
 ---
 
 ## Section 10 — Potential Red Flags
 
-1. **High reliance on government/public grants (mission drift / constraints risk)** — MinistryWatch reports **$636,564,976** in government grants in 2024.[^13] This is not inherently improper, but it can introduce constraints, complexity, and risk of external policy pressures affecting program execution and/or perceived witness.  
-2. **Public reporting inconsistency / classification confusion in third-party databases** — ProPublica’s organization page contains the statement that the organization is “not required to submit tax filings because the IRS designates it as a church,” while World Vision distributes a public Form 990 and multiple watchdogs reference that transparency.[^23][^8] This appears to be a third-party database characterization that may confuse donors; the practical mitigation is that Form 990 and audited statements are publicly provided.[^8][^14]
+**No significant red flags were identified from the captured sources** reviewed in this pass (World Vision official pages, ECFA listing, and Form 990 summary data).[^wv-fin-accountability][^ecfa-profile][^propublica]
 
-**If additional red flags exist** (e.g., legal actions, major governance failures), they were not identified in the limited set of retrieved sources cited above.
+Items to note (not inherently wrongdoing, but due-diligence prompts):
+- **Complexity / scale risk:** World Vision operates at a very large financial scale (FY2024 revenue ~$1.58B).[^propublica] Scale increases governance, internal control, and partner risk.  
+- **Government funding exposure:** MinistryWatch reports **$636.6M** in government grants (FY2024), which can create compliance complexity and potential mission tension depending on restrictions.[^ministrywatch]
+
+**Limitation:** A full red-flag assessment would normally include deeper review of (a) the latest 3 full Form 990 PDFs including Schedule O and Schedule R, and (b) audited financial statement note disclosures and any qualified opinions—beyond what could be extracted here.
 
 ---
 
 ## Section 11 — Key Collaborators
 
-**Evidentiary limitation:** World Vision states it partners with “donors, churches, technical experts, government agencies, and other partners,” but the specific named partner list was not retrievable here.[^4]
+Named/clear collaborator categories described in captured sources include:
+- **Local churches, pastors, and Christian leaders** — World Vision states it partners with pastors and leaders globally and seeks to strengthen local churches.[^wv-christian-faith]  
+- **Broader World Vision partnership (international affiliates)** — World Vision U.S. describes itself as a member of an international partnership spanning nearly 100 countries.[^wv-mission-values]  
+- **Government agencies** — World Vision references government agencies among partner categories; additionally, reported government grants indicate active government funding relationships.[^wv-fin-accountability][^ministrywatch]  
+- **Technical experts and other partner organizations** — described broadly as part of a network enabling scale and accountability.[^wv-fin-accountability]  
 
-Still, the following **named** relationships are documented in retrieved sources:
-
-- **ECFA** — accountability membership (Charter Member).[^19]  
-- **BBB Wise Giving Alliance** — referenced as an accrediting/standards body in WV materials; a BBB charity report page exists.[^4][^20]  
-- **Charity Navigator** — WV references four-star status; CN profile exists.[^4][^18]  
-- **U.S. Global Leadership Coalition** — CEO Edgar Sandoval Sr. serves on its board (leadership affiliation indicating networked collaboration in policy/advocacy space).[^7]  
-- **YouVersion (Bible app)** — CEO is described as a regular contributor of guided Scripture videos (content partnership indicator).[^7]
+**Limitation:** Specific named partners (e.g., agencies, corporations, networks) were not enumerated in the captured sources for this pass.
 
 ---
 
 ## Section 12 — Similar Organizations
 
-| Organization | Revenue scale (approx.) | Faith basis | Key differentiators vs. World Vision |
+| Organization | Revenue scale (approx.) | Faith basis | Key differentiators vs. World Vision U.S. |
 |---|---|---|---|
-| Compassion International | Large | Christian | Strongly sponsorship-centric; often more explicitly local-church-implemented sponsorship model (general sector positioning; not fully sourced here). |
-| Samaritan’s Purse | Large | Christian | Often more overt evangelistic branding + rapid disaster response emphasis (general sector positioning; not fully sourced here). |
-| World Relief | Mid-to-large | Christian | Greater emphasis on refugee/immigrant services and church-based resettlement partnerships (general sector positioning; not fully sourced here). |
-| Food for the Hungry | Mid-to-large | Christian | Similar relief/development portfolio; typically smaller scale than WV with strong community development emphasis (general sector positioning; not fully sourced here). |
-| Catholic Relief Services | Very large | Christian (Catholic) | Catholic identity; very large institutional/government funding footprint; less “sponsorship brand” identity than WV (general sector positioning; not fully sourced here). |
-| Save the Children | Very large | Not specifically Christian | Major child-focused global NGO without a confessional doctrinal statement like WV’s.[^5] |
-| CARE | Very large | Not specifically Christian | Large global humanitarian NGO; less child-sponsorship-forward brand than WV (general sector positioning; not fully sourced here). |
-| UNICEF USA | Very large | Not specifically Christian | UN-affiliated children’s agency fundraising arm; different governance/accountability structure than a Christian nonprofit (general sector positioning; not fully sourced here). |
+| Compassion International | Large | Explicitly Christian | Strong sponsorship emphasis; typically narrower program mix than World Vision’s broad relief/development portfolio. |
+| Samaritan’s Purse | Large | Explicitly Christian | High-profile disaster response and medical missions; more overt evangelistic brand positioning in many contexts. |
+| Food for the Hungry | Mid-to-large | Explicitly Christian | Integrated development and relief with strong church/community focus; generally smaller scale than World Vision. |
+| World Relief | Mid | Explicitly Christian | Strong refugee/immigrant services focus (including U.S. resettlement/service footprint). |
+| Catholic Relief Services | Large | Catholic | Large institutional/global relief network tied to Catholic Church; different doctrinal identity. |
+| Save the Children | Large | Generally secular | Child-focused humanitarian NGO; not faith-based, often different partnership model with churches. |
+| CARE | Large | Generally secular | Major global humanitarian organization; not centered on Christian witness framing. |
+| Mercy Corps | Large | Generally secular | Strong focus on resilience/economic systems; secular humanitarian identity. |
 
-**What makes World Vision distinctive (within this peer group):** World Vision uniquely combines (a) explicit evangelical doctrinal commitments,[^5] (b) a global child-focused vision anchored to John 10:10,[^1][^19] and (c) very large-scale relief/development operations with significant public-grant leverage in the U.S. entity.[^11][^13]
+**What makes World Vision distinctive in this peer group:** World Vision’s distinctive niche is its combination of (1) **very large-scale humanitarian operations**, (2) a **formal evangelical Statement of Faith**, and (3) a highly accessible donor participation model, including the widely used **Gift Catalog** (e.g., giving goats/chickens and other livelihood assets as “gifts”).[^wv-statement-faith][^propublica][^wv-giftcatalog]
 
 ---
 
 ## Part 4 — AI Disclosure
 
-This report was produced using an AI research assistant on **2026-07-06**. It reflects information available as of that date from the cited sources linked throughout.
+- **AI tool used:** ChatGPT (via API).  
+- **Research conducted on:** **2026-07-07**.  
+- **Disclosure:** This report reflects information available as of that date from the **cited sources** embedded throughout the document.
 
 ---
 
-# Sources (citations)
+## Sources
 
-[^1]: World Vision International, “Our vision and values” (mission, vision/prayer, core values). https://www.wvi.org/about-us/our-vision-and-values (retrieved via tool results; page last-updated shown in results as 2026-06-24).  
-[^2]: World Vision (U.S.), “About Us” (powered by Jesus’ love; 75 years; “above reproach” reference; program % in 2025; CEO quote). https://www.worldvision.org/about-us  
-[^3]: World Vision International, “Core Values” PDF (stewardship as sacred trust language). https://www.wvi.org/sites/default/files/2025-05/WVI%20Core%20Values%20Updated%205-12-25.pdf  
-[^4]: World Vision (U.S.), “Financial Accountability” (86% program investment claim; 2 Cor 8:21; sponsorship count; 50k pastors; partners/government agencies mention). https://www.worldvision.org/about-us/financial-accountability  
-[^5]: World Vision (U.S.), “Statement of Faith.” https://www.worldvision.org/statement-of-faith  
-[^6]: MinistryWatch database listing, “World Vision, Inc., U.S.” (founding year; founder Bob Pierce; board size; chair; ECFA membership info). https://db.ministrywatch.com/ministry.php?ein=951922279  
-[^7]: World Vision (U.S.), “Edgar Sandoval Sr., President and CEO” (bio; scale; Chosen®; affiliations). https://www.worldvision.org/about-us/leadership-team/edgar-sandoval-ceo  
-[^8]: World Vision, Inc. Form 990 public copy (Form 990 (2023), FY ending 09/30/2024) as hosted by World Vision. https://wvusstatic.com/2025/financial-accountability/2023-WV-Public-Copy-990.pdf  
-[^9]: ProPublica Nonprofit Explorer, World Vision (EIN 95-1922279), extracted financial data for FY ending Sept 2025 (revenue/expenses/net assets). https://projects.propublica.org/nonprofits/organizations/951922279  
-[^10]: ProPublica Nonprofit Explorer, World Vision (EIN 95-1922279), extracted financial data for FY ending Sept 2023 (revenue/expenses/net assets; investment income). https://projects.propublica.org/nonprofits/organizations/951922279  
-[^11]: World Vision (U.S.), “2025 Impact Report” PDF (financial highlights tables for FY2023–FY2025 operating revenue/expense/program services). https://wvusstatic.com/www/uploads/2026/04/29142426/BC21685-FY26-Annual-Review_F-1.pdf  
-[^12]: World Vision (U.S.) Gift Catalog, “Disaster Relief Fund” page (104 disasters; 70 countries; 35.6M assisted; 18.6M children; 24–72 hours; $1->$5 claim). https://donate.worldvision.org/give/disaster-relief  
-[^13]: MinistryWatch database listing (government grants figure for 2024; transparency grade A). https://db.ministrywatch.com/ministry.php?ein=951922279  
-[^14]: World Vision, Inc. and Affiliates, audited consolidated financial statements FY2025 (existence of audited consolidated statements). https://wvusstatic.com/www/uploads/2026/01/23155842/FY25_WorldVisionInc_FS_wo-Supplementary-Sch.pdf  
-[^15]: World Vision International, “Appendix: Disclosures related to US IRS Form 990” (VisionFund International files Form 990; World Vision Inc files voluntarily; WVI disclosure context). https://www.wvi.org/sites/default/files/2025-05/990%20Form%20FV%20May%2016_0.pdf  
-[^16]: Charity Navigator, “World Vision International University” (not currently rated). https://www.charitynavigator.org/ein/475671768  
-[^17]: World Vision International, “Global Annual Report 2024” PDF (global revenue; yield to programming; Africa programming spend). https://www.wvi.org/sites/default/files/2025-05/WVI%20Global%20Annual%20Report%202024.pdf  
-[^18]: Charity Navigator profile page for World Vision (EIN 95-1922279). https://www.charitynavigator.org/ein/951922279  
-[^19]: ECFA Member Profile, “World Vision, Inc.” (Charter Member; member since 1979; John 10:10 framing). https://www.ecfa.org/MemberProfile.aspx?ID=5968  
-[^20]: BBB charity report page for World Vision (Federal Way, WA). https://www.bbb.org/us/wa/federal-way/charity-review/charity-national/world-vision-0925-90000462  
-[^21]: BBB Wise Giving Alliance (Give.org), donor advisory listing World Vision among charities meeting BBB standards (July 17, 2020). https://give.org/news/bbb-wise-giving-alliance-issues-donor-advisory-for-syrian-refugee-assistance  
-[^22]: The Presbyterian Outlook article referencing MinistryWatch (WV: Transparency Grade A; 4/5 stars efficiency; donor confidence score) (Aug 2023 page context as shown in tool result). https://pres-outlook.org/2023/08/giving-to-maui-disaster-relief-and-who-to-avoid/  
-[^23]: ProPublica Nonprofit Explorer organization page snippet indicating “designates it as a church” (database statement; potentially confusing). https://projects.propublica.org/nonprofits/organizations/951922279
+[^wv-about]: World Vision, “About Us” (page text captured in this research pass). https://www.worldvision.org/about-us  
+[^wv-fin-accountability]: World Vision, “Financial Accountability” (page text captured in this research pass). https://www.worldvision.org/about-us/financial-accountability  
+[^wv-leadership]: World Vision, “Leadership Team” (page text captured in this research pass). https://www.worldvision.org/about-us/leadership-team  
+[^wv-ceo-bio]: World Vision, “Edgar Sandoval Sr., President and CEO” (search result captured in this research pass). https://www.worldvision.org/about-us/leadership-team/edgar-sandoval-ceo  
+[^wv-mission-values]: World Vision, “Mission & Values” (search result captured in this research pass). https://www.worldvision.org/about-us/mission-statement  
+[^wv-faith-in-jesus]: World Vision, “Faith in Jesus” (search result captured in this research pass). https://www.worldvision.org/about-us/mission-statement/faith-in-jesus  
+[^wv-christian-faith]: World Vision, “Christian Faith” (search result captured in this research pass). https://www.worldvision.org/our-work/christian-faith  
+[^wv-statement-faith]: World Vision, “Statement of Faith” (search result captured in this research pass). https://www.worldvision.org/statement-of-faith  
+[^wv-annual-reports]: World Vision, “Annual Reports” (page text captured in this research pass). https://www.worldvision.org/about-us/annual-reports  
+[^wv-fy24-audit-pdf]: World Vision (hosted PDF), “WORLD VISION, INC. AND AFFILIATES — Consolidated Financial Statements” (FY2024) (PDF link captured in this research pass). https://wvusstatic.com/2025/financial-accountability/FY24-Audited-WorldVisionInc-Consolidated-FS.pdf  
+[^wv-giftcatalog]: World Vision, “Charity Gift Catalog” (search result captured in this research pass). https://donate.worldvision.org/giftcatalog  
+[^wv-animals]: World Vision Gift Catalog, “Animals & Agriculture” (search result captured in this research pass). https://donate.worldvision.org/gift-catalog/animals  
+[^wvi-vision-values]: World Vision International, “Our vision and values” (search result captured in this research pass). https://www.wvi.org/about-us/our-vision-and-values  
+[^wvi-990-appendix]: World Vision International (PDF), “Appendix: Disclosures related to US IRS Form 990” (search result captured in this research pass). https://www.wvi.org/sites/default/files/2023-04/FINAL%20Appendix%20Form%20990.pdf  
+[^propublica]: ProPublica, Nonprofit Explorer — “World Vision” (EIN 95-1922279) (page text captured in this research pass). https://projects.propublica.org/nonprofits/organizations/951922279  
+[^ecfa-profile]: ECFA, “World Vision, Inc. — Member Profile” (search result captured in this research pass). https://www.ecfa.org/MemberProfile.aspx?ID=5968  
+[^ecfa-charter-list]: ECFA, “Charter Members” (search result captured in this research pass). https://www.ecfa.org/CharterMembers.aspx  
+[^ministrywatch]: MinistryWatch, “World Vision, Inc., U.S.” (includes founder listing and government grants note; search result captured in this research pass). https://db.ministrywatch.com/ministry.php?ein=951922279  
+[^wv-logo-page]: World Vision, “Proud Supporter Resources and Logo” (search result captured in this research pass). https://www.worldvision.org/corporate/ways-to-give/resources-logo/

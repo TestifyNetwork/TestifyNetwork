@@ -1,26 +1,16 @@
-# Cru (Campus Crusade for Christ, Inc.) — Nonprofit Research Model (NRM) Profile (v1.4)
+# Cru (Campus Crusade for Christ, Inc.)
+Using NRM V1.4 
 
-> **Formatting note (NRM 2.1 / 2.4):** This deliverable is provided in **Markdown** (per request), so it cannot be delivered as a downloadable PDF or rendered in Georgia font within this chat. For a final NRM-compliant PDF, this Markdown should be typeset/exported using **Georgia**.
-
-| Identity Field | Details |
-|---|---|
-| Ministry Name | **Cru** (U.S. brand name of Campus Crusade for Christ) |
-| Ministry Logo | *Limitation:* An official Cru logo file from Cru.org was not successfully retrieved in the available evidence set for this run. (Cru maintains a logo download portal: https://sites.cru.org/promotions/cru-logo-download/) |
-| Legal Name / EIN | **Campus Crusade for Christ, Inc.** (EIN **95-6006173**) (ProPublica: https://projects.propublica.org/nonprofits/organizations/956006173; Jesus Film Project page confirms EIN: https://www.jesusfilm.org/give/accountability/reports/) |
-| HQ / Primary Address (reported) | 100 Lake Hart Dr, Orlando, FL 32832 (MinistryWatch: https://db.ministrywatch.com/ministry.php?ein=956006173) |
-| Website | https://www.cru.org/ |
-
----
 
 ## Section 1 — Mission, Vision & Ministry Purpose
 
-**Mission (verbatim):** "**Win, build and send Christ-centered multiplying disciples**" (Cru "About" page: https://www.cru.org/us/en/about.html)
+**Mission:** "**Win, build and send Christ-centered multiplying disciples**" (Cru "About" page: https://www.cru.org/us/en/about.html)
 
-**Vision (verbatim):** "**Movements everywhere so that everyone knows someone who truly follows Jesus.**" (Cru "Vision" page: https://www.cru.org/us/en/about/vision.html; also repeated on https://www.cru.org/us/en/about.html)
+**Vision:** "**Movements everywhere so that everyone knows someone who truly follows Jesus.**" (Cru "Vision" page: https://www.cru.org/us/en/about/vision.html; also repeated on https://www.cru.org/us/en/about.html)
 
 **Stated ministry purpose (summary, sourced):** Cru frames its calling as evangelism and discipleship (win/build/send), rooted in historic Christian doctrine and the Great Commission emphasis stated in its Statement of Faith (https://www.cru.org/us/en/about/statement-of-faith.html) and organizational overview (https://www.cru.org/us/en/about.html).
 
-### Section 1.1 — Ministry Summary *(required subsection)*
+### Section 1.1 — Ministry Summary
 
 | Field | Descriptor |
 |---|---|
@@ -122,12 +112,12 @@ Because Cru is a multi-arm ministry, the most clearly evidenced "core programs" 
    - **Fruit:** *Not quantified in retrieved evidence set for this run.*  
    - **Form 990 cost:** *Not available.*
 
-#### Multi-year financial summary (parent organization) — *required by NRM*
+#### Multi-year financial summary (parent organization) 
 *Limitation (material):* The retrieved evidence confirms that Cru provides audited financial statements in its annual report (https://www.cru.org/us/en/about/donor-relations/annual-report.html) and that Cru is audited annually (Jesus Film Project accountability page: https://www.jesusfilm.org/give/accountability/reports/). However, **the actual consolidated audited financial statements and multi-year totals (3-year revenue/expenses/net assets) were not available within the retrieved evidence set for this run**, and Cru does not provide Form 990s in the public databases referenced (https://projects.propublica.org/nonprofits/organizations/956006173).
 
 ---
 
-### 6b — Subsidiary & Affiliated Ministry Research Protocol *(required)*
+### 6b — Subsidiary & Affiliated Ministry Research Protocol 
 
 **Subsidiaries/affiliates identified in retrieved sources (minimum set):** **5** named ministry arms are explicitly referenced as distinct ministries/brands: **Athletes in Action, Jesus Film Project, FamilyLife, Unto, Sightline** (Cru About page: https://www.cru.org/us/en/about.html; Cru Annual Report landing page: https://www.cru.org/us/en/about/donor-relations/annual-report.html).
 

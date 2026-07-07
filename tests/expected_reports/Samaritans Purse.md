@@ -1,6 +1,4 @@
-# Samaritan’s Purse *(official logo not retrievable from the already-collected sources—limitation noted)*
-
-**Note on NRM formatting requirements:** NRM v1.4 specifies **Georgia** font and **PDF** delivery. This response is provided in **Markdown (per your request)**; font and PDF formatting would need to be applied during document export.
+# Samaritan’s Purse 
 
 **Organization website:** https://www.samaritanspurse.org  
 **Mailing address (public):** P.O. Box 3000, Boone, NC 28607 (also shown on Charity Navigator and Give.org profiles)  
@@ -22,7 +20,7 @@ Source: https://www.samaritanspurse.org/our-ministry/about-us/
 **Vision:** A distinct “vision statement” is not clearly published in the sources captured for this report (limitation). The ministry repeatedly emphasizes offering **help and hope in Jesus’ Name** and advancing the Gospel (see “About Us” and “History”).  
 Sources: https://www.samaritanspurse.org/our-ministry/about-us/ ; https://www.samaritanspurse.org/our-ministry/history/
 
-### Section 1.1 — Ministry Summary *(required subsection)*
+### Section 1.1 — Ministry Summary 
 
 | Field | Descriptor |
 |---|---|
