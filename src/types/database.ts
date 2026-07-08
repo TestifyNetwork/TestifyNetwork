@@ -2,7 +2,13 @@
 // Regenerate by querying: GET /rest/v1/ministry_reports?limit=1
 // Last synced: 2026-06-23
 
-export type Json = string | number | boolean | null | { [key: string]: Json } | Json[];
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json }
+  | Json[];
 
 export interface Database {
   public: {
@@ -18,21 +24,27 @@ export interface Database {
 
 /** Full row returned from ministry_reports */
 export interface MinistryReport {
-  ministry_id: string;           // uuid, primary key
-  created_at: string;            // timestamptz
-  ministry_name: string;         // text, unique, not null
-  logo_url: string | null;       // text
-  hq_location: string | null;    // text
-  mission: string | null;        // text
-  status: string | null;         // text
-  generated_report: string | null;     // text (markdown)
+  ministry_id: string; // uuid, primary key
+  created_at: string; // timestamptz
+  ministry_name: string; // text, unique, not null
+  logo_url: string | null; // text
+  hq_location: string | null; // text
+  mission: string | null; // text
+  status: string | null; // text
+  generated_report: string | null; // text (markdown)
   generated_citations: string[] | null; // text[]
+  irs_reports: string[] | null; // text[] – IRS 990 document URLs
+  annual_reports: string[] | null; // text[] – annual report URLs
 }
 
 /** Subset returned by the /ministries list endpoint */
 export type MinistryListItem = Pick<
   MinistryReport,
-  "ministry_id" | "ministry_name" | "logo_url" | "hq_location" | "mission"
+  | "ministry_id"
+  | "ministry_name"
+  | "logo_url"
+  | "hq_location"
+  | "mission"
 >;
 
 /** Subset returned by the /ministry/:id detail endpoint */
@@ -45,7 +57,13 @@ export type MinistryDetail = Pick<
   | "mission"
   | "generated_report"
   | "generated_citations"
+  | "irs_reports"
+  | "annual_reports"
 >;
 
-export type MinistryReportInsert = Omit<MinistryReport, "ministry_id" | "created_at">;
-export type MinistryReportUpdate = Partial<MinistryReportInsert>;
+export type MinistryReportInsert = Omit<
+  MinistryReport,
+  "ministry_id" | "created_at"
+>;
+export type MinistryReportUpdate =
+  Partial<MinistryReportInsert>;

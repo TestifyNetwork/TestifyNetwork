@@ -463,11 +463,68 @@ export function MinistryPage() {
             {activeSection === "documents" && (
               <div className="space-y-6">
                 <h2 className="text-primary-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1.375rem" }}>Annual Report, 990, Newsletters</h2>
-                <p className="text-primary-foreground/70 text-sm mb-6">Official filings and publications from {ministry.ministry_name}.</p>
-                <div className="bg-card border border-border rounded-xl p-8 text-center">
-                  <ScrollText className="w-10 h-10 text-muted-foreground/40 mx-auto mb-4" strokeWidth={1.5} />
-                  <p className="text-foreground mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 600 }}>No documents yet</p>
-                  <p className="text-muted-foreground text-sm">Official filings and publications will appear here once uploaded.</p>
+                <p className="text-primary-foreground/70 text-sm">Official filings and publications from {ministry.ministry_name}.</p>
+
+                {/* Annual Reports */}
+                <div className="bg-card border border-border rounded-xl p-6">
+                  <h3 className="flex items-center gap-2 mb-4" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1rem", color: "var(--foreground)" }}>
+                    <ScrollText className="w-4 h-4 text-primary shrink-0" strokeWidth={1.5} />
+                    Annual Reports
+                  </h3>
+                  {ministry.annual_reports && ministry.annual_reports.length > 0 ? (
+                    <ul className="space-y-2">
+                      {ministry.annual_reports.map((url, i) => {
+                        let label = url;
+                        try { label = decodeURIComponent(url.split("/").pop() ?? url).replace(/[-_]/g, " ").replace(/\.\w+$/, ""); } catch { /* keep url */ }
+                        return (
+                          <li key={i}>
+                            <a
+                              href={url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2.5 text-sm text-primary hover:underline group"
+                            >
+                              <ScrollText className="w-3.5 h-3.5 shrink-0 text-muted-foreground group-hover:text-primary transition-colors" strokeWidth={1.5} />
+                              {label || `Annual Report ${i + 1}`}
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    <p className="text-muted-foreground text-sm">No annual reports on file yet.</p>
+                  )}
+                </div>
+
+                {/* IRS 990s */}
+                <div className="bg-card border border-border rounded-xl p-6">
+                  <h3 className="flex items-center gap-2 mb-4" style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1rem", color: "var(--foreground)" }}>
+                    <ScrollText className="w-4 h-4 text-primary shrink-0" strokeWidth={1.5} />
+                    IRS Form 990s
+                  </h3>
+                  {ministry.irs_reports && ministry.irs_reports.length > 0 ? (
+                    <ul className="space-y-2">
+                      {ministry.irs_reports.map((url, i) => {
+                        let label = url;
+                        try { label = decodeURIComponent(url.split("/").pop() ?? url).replace(/[-_]/g, " ").replace(/\.\w+$/, ""); } catch { /* keep url */ }
+                        return (
+                          <li key={i}>
+                            <a
+                              href={url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2.5 text-sm text-primary hover:underline group"
+                            >
+                              <ScrollText className="w-3.5 h-3.5 shrink-0 text-muted-foreground group-hover:text-primary transition-colors" strokeWidth={1.5} />
+                              {label || `Form 990 – Filing ${i + 1}`}
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    <p className="text-muted-foreground text-sm">No 990 filings on file yet.</p>
+                  )}
                 </div>
               </div>
             )}

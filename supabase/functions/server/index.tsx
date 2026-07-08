@@ -50,7 +50,7 @@ app.get(`/${SERVER_PREFIX}/ministry/:id`, async (c) => {
   const id = c.req.param("id");
   const { data, error } = await supabase
     .from(TABLE)
-    .select(`${COL.ID}, ${COL.NAME}, ${COL.LOGO}, ${COL.LOCATION}, ${COL.MISSION}, ${COL.REPORT}`)
+    .select(`${COL.ID}, ${COL.NAME}, ${COL.LOGO}, ${COL.LOCATION}, ${COL.MISSION}, ${COL.REPORT}, ${COL.CITATIONS}, ${COL.IRS_REPORTS}, ${COL.ANNUAL_REPORTS}`)
     .eq(COL.ID, id)
     .maybeSingle();
 
