@@ -253,7 +253,7 @@ export default {
           NRM_version: nrmVersion,
           model_name: modelName,
         };
-        if (form990Urls.length > 0) updatePayload["990s"] = form990Urls;
+        if (form990Urls.length > 0) updatePayload["irs_reports"] = form990Urls;
         if (annualReportUrls.length > 0) updatePayload["annual_reports"] = annualReportUrls;
 
         const { error: updateError } = await ctx.supabase

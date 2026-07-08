@@ -22,7 +22,7 @@ export const DB = {
     CREATED_AT: "created_at",
     CITATIONS: "generated_citations",
     NRM_VERSION: "NRM_version",
-    IRS_REPORTS: "990s",
+    IRS_REPORTS: "irs_reports",
     ANNUAL_REPORTS: "annual_reports",
     MINISTRY_LEADER_NAME: "ministry_leader_name",
     MINISTRY_LEADER_EMAIL: "ministry_leader_email",
