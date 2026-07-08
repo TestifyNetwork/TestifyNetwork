@@ -89,47 +89,75 @@ export default {
       try {
         console.log(`Starting background task`);
         
-        // Make API call to Perplexity to generate the report with streaming enabled
-        const responseFromReportRequest = await fetch('https://api.perplexity.ai/v1/agent', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${PERPLEXITY_API_KEY}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            input: `Produce a profile of ${ministryName}(the one ${identifiableFact}) using the provided Nonprofit Research Model. Follow the instructions in the Nonprofit Research Model exactly. Your entire response must be formatted in Markdown, not HTML.\n\n<beginning of Nonprofit Research Model>\n${instructions}\n<end of Nonprofit Research Model>`,
-            preset: 'deep-research',
-            reasoning: {effort: 'high'},
-            stream: true,
-          }),
-        });
-        console.log("Perplexity API returned stream");
+        // Make API call to Perplexity with retry logic for transient model errors
+        const MAX_ATTEMPTS = 3;
+        const RETRY_DELAY_MS = 5000;
+        let collectedEvents: any[] = [];
+        let responseWithReportData: any = null;
 
-        // Check for response status errors
-        if (!responseFromReportRequest.ok) {
-          const errorText = await responseFromReportRequest.text();
-          throw new Error(`Perplexity API error: ${responseFromReportRequest.status} - ${errorText}`);
+        for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+          if (attempt > 1) {
+            console.log(`Retrying Perplexity request (attempt ${attempt}/${MAX_ATTEMPTS})...`);
+            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY_MS));
+          }
+
+          const responseFromReportRequest = await fetch('https://api.perplexity.ai/v1/agent', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${PERPLEXITY_API_KEY}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              input: `Produce a profile of ${ministryName}(the one ${identifiableFact}) using the provided Nonprofit Research Model. Follow the instructions in the Nonprofit Research Model exactly. Your entire response must be formatted in Markdown, not HTML.\n\n<beginning of Nonprofit Research Model>\n${instructions}\n<end of Nonprofit Research Model>`,
+              preset: 'deep-research',
+              reasoning: {effort: 'high'},
+              stream: true,
+            }),
+          });
+          console.log(`Perplexity API returned stream (attempt ${attempt})`);
+
+          if (!responseFromReportRequest.ok) {
+            const errorText = await responseFromReportRequest.text();
+            if (attempt === MAX_ATTEMPTS) {
+              throw new Error(`Perplexity API error: ${responseFromReportRequest.status} - ${errorText}`);
+            }
+            console.log(`Perplexity API error on attempt ${attempt}: ${responseFromReportRequest.status} - ${errorText}`);
+            continue;
+          }
+
+          collectedEvents = await readSSEStream(responseFromReportRequest.body!);
+          console.log(`Stream complete, received ${collectedEvents.length} SSE events`);
+
+          const lastEvent = collectedEvents[collectedEvents.length - 1] ?? null;
+
+          if (!lastEvent) {
+            if (attempt === MAX_ATTEMPTS) throw new Error(`Perplexity stream ended without any events`);
+            console.log(`No events received on attempt ${attempt}, retrying...`);
+            continue;
+          }
+
+          if (lastEvent.type === 'response.failed' || lastEvent.response.error != null) {
+            const reason = lastEvent.error?.message ?? JSON.stringify(lastEvent);
+            if (attempt === MAX_ATTEMPTS) throw new Error(`Perplexity model error: ${reason}`);
+            console.log(`Perplexity model error on attempt ${attempt}: ${reason}`);
+            collectedEvents = [];
+            continue;
+          }
+
+          responseWithReportData = lastEvent;
+          break;
         }
-
-        const collectedEvents: any[] = await readSSEStream(responseFromReportRequest.body!);
-        console.log(`Stream complete, received ${collectedEvents.length} SSE events`);
-
-        // The final event in the stream contains the complete response.
-        const responseWithReportData: any = collectedEvents[collectedEvents.length - 1] ?? null;
 
         if (!responseWithReportData) {
-          throw new Error(`Perplexity stream ended without any events`);
+          throw new Error(`Perplexity failed after ${MAX_ATTEMPTS} attempts`);
         }
-
-        // Extract NRM version from the URL — the segment between "NRM_v" and "_spec"
-        const nrmVersionMatch = NONPROFIT_RESEARCH_MODEL_PUBLIC_URL.match(/NRM_v([\d_]+)_spec/);
-        const nrmVersion = nrmVersionMatch ? nrmVersionMatch[1].replace(/_/g, ".") : null;
-
-        // Extract model name from the top-level "model" field of the response
-        const modelName: string | null = responseWithReportData.model ?? null;
 
         // collectedEvents is no longer needed once the completion event has been extracted
         collectedEvents.length = 0;
+        
+        // Retrieve model name to help us determine when output is different
+        const modelName : string = responseWithReportData.response.model ?? "";
+        console.log(`Model name: ${modelName}`);
 
         // Generated report
         const generatedReport = findByTypeInJSON(responseWithReportData, "output_text")?.text ?? "";
@@ -165,6 +193,10 @@ export default {
         const reportWithLinks = injectCitationLinks(generatedReport, urls);
 
         console.log("Report and citations successfully generated");
+        
+        // Extract NRM version from the URL — the segment between "NRM_v" and "_spec"
+        const nrmVersionMatch = NONPROFIT_RESEARCH_MODEL_PUBLIC_URL.match(/NRM_v([\d_]+)_spec/);
+        const nrmVersion = nrmVersionMatch ? nrmVersionMatch[1].replace(/_/g, ".") : null;
 
         // Search for the ministry's last 3 Form 990s
         const form990Urls: string[] = await (async () => {
