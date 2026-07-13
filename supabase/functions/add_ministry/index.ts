@@ -262,12 +262,12 @@ export default {
           .eq(ID_COLUMN_NAME, rowId);
         
         if (updateError) {
-          throw updateError;
+          throw new Error(updateError.message);
         }
         console.log(`Row for ${ministryName} has been updated with the generated report and citations`);
 
       } catch (err) {
-        console.error(`Background task failed: ${err}`);
+        console.error(`Background task failed: ${err instanceof Error ? err.message : JSON.stringify(err)}`);
         await ctx.supabase
           .from(MINISTRY_REPORTS_TABLE)
           .update({ status: "error" })
