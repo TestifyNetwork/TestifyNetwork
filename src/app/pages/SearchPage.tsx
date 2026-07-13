@@ -14,7 +14,7 @@ const anonHeaders = { apikey: publicAnonKey, Authorization: `Bearer ${publicAnon
 const serverHeaders = { Authorization: `Bearer ${publicAnonKey}` };
 const ADD_MINISTRY_KEY = "sb_publishable_AAHOHAHBpgtHBCsLslwZ8w_Y21Nuxmy";
 
-const INITIAL_WAIT_S = 60;
+const INITIAL_WAIT_S = 180;
 const POLL_INTERVAL_S = 10;
 
 type PollPhase = "idle" | "initial_wait" | "polling" | "found";
