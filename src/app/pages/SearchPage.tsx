@@ -140,7 +140,6 @@ export function SearchPage() {
       body: JSON.stringify({ ministryName: name, identifiableFact: fact }),
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error ?? `Error ${res.status}`);
     return data;
   };
 
@@ -363,6 +362,10 @@ export function SearchPage() {
             {/* Scrollable body */}
             <div className="overflow-y-auto px-8 pb-8 space-y-6">
 
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                Recommend a ministry you are passionate about. To get the conversation started we will generate a research report and then ask the ministry leader to evaluate it and provide their own feedback.
+              </p>
+
               {/* ── 1. Form ─────────────────────────────────────────────── */}
               <div className={`space-y-5 transition-opacity duration-300 ${submitted ? "opacity-50 pointer-events-none" : ""}`}>
                 <div>
@@ -435,7 +438,7 @@ export function SearchPage() {
                         <PulsingDots />
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-foreground" style={{ fontFamily: "'Lora', serif" }}>Generating report…</p>
+                        <p className="text-sm font-medium text-foreground" style={{ fontFamily: "'Lora', serif" }}>Generating research report… This will be sent to the ministry leader for evaluation togehter with an </p>
                         <p className="text-xs text-muted-foreground">Checking every {POLL_INTERVAL_S}s</p>
                       </div>
                     </div>

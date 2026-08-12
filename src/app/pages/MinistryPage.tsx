@@ -352,27 +352,7 @@ export function MinistryPage() {
                       </ReactMarkdown>
                     </div>
 
-                    {sources.length > 0 && (
-                      <div className="bg-card border border-border rounded-xl p-6">
-                        <h3 style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: "1rem", marginBottom: "1rem", color: "var(--foreground)" }}>
-                          Sources
-                        </h3>
-                        <ol style={{ listStyle: "none", padding: 0, margin: 0 }} className="space-y-1.5">
-                          {sources.map(({ num, url }) => {
-                            let domain = url;
-                            try { domain = new URL(url).hostname.replace(/^www\./, ""); } catch { /* keep full url */ }
-                            return (
-                              <li key={num} className="flex items-baseline gap-2 text-xs">
-                                <span className="shrink-0 text-muted-foreground font-medium w-6 text-right">[{num}]</span>
-                                <a href={url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline truncate" title={url}>
-                                  {domain}
-                                </a>
-                              </li>
-                            );
-                          })}
-                        </ol>
-                      </div>
-                    )}
+                   
                   </>
                 ) : (
                   <div className="bg-card border border-dashed border-border rounded-xl p-10 text-center">
