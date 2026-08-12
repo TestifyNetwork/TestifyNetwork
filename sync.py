@@ -9,6 +9,7 @@ Usage:
 """
 
 import argparse
+import json
 import subprocess
 import sys
 import os
@@ -18,6 +19,7 @@ BRANCH = "main"
 FIGMA_COMMIT_MSG = "Update files from Figma Make"
 SYNC_COMMIT_MSG_PREFIX = "Bringing back changes from"
 FIGMA_LIST_FILE = "figma_managed_list.txt"
+MIGRATIONS_DIR = os.path.join("supabase", "migrations")
 
 
 # ── Shell helpers ─────────────────────────────────────────────────────────────
@@ -121,6 +123,54 @@ def find_most_recent_figma_commit():
     return None, None
 
 
+# ── Supabase migration sync ─────────────────────────────────────────────────────
+# Figma Make deploys schema changes straight to the live Supabase project —
+# a separate channel from its git commits — so a migration can show up as
+# "remote" with no matching local file. `supabase db pull` refuses to run
+# while any such mismatch exists, so we repair the CLI's tracking ledger for
+# each one first, then pull the real schema into a local migration file.
+
+def get_migration_status():
+    """Returns the list of {local, remote, time} dicts from `supabase migration list`.
+    Exits the process (via run()) if the CLI call fails."""
+    result = run(["supabase", "migration", "list"])
+    try:
+        return json.loads(result.stdout).get("migrations", [])
+    except json.JSONDecodeError:
+        print("Error: could not parse `supabase migration list` output:")
+        print(result.stdout.strip())
+        sys.exit(1)
+
+
+def sync_remote_only_migrations():
+    """Repairs and pulls any migrations Figma Make applied directly to Supabase
+    without a matching local file. Returns True if a new migration file landed."""
+    migrations = get_migration_status()
+
+    remote_only = [m["remote"] for m in migrations if m.get("remote") and not m.get("local")]
+    if not remote_only:
+        return False
+
+    print(f"Found {len(remote_only)} migration(s) Figma Make applied directly to "
+          f"Supabase (no local file): {', '.join(remote_only)}")
+
+    for version in remote_only:
+        print(f"Repairing migration history for {version}...")
+        run(["supabase", "migration", "repair", "--status", "reverted", version])
+
+    print("Pulling current schema into a local migration file...")
+    before = set(os.listdir(MIGRATIONS_DIR)) if os.path.isdir(MIGRATIONS_DIR) else set()
+    run_interactive(["supabase", "db", "pull"])
+    after = set(os.listdir(MIGRATIONS_DIR)) if os.path.isdir(MIGRATIONS_DIR) else set()
+
+    new_files = sorted(after - before)
+    if new_files:
+        print(f"Pulled {len(new_files)} new migration file(s): {', '.join(new_files)}")
+    else:
+        print("No new migration file was generated.")
+    return bool(new_files)
+
+
 # ── Commands ──────────────────────────────────────────────────────────────────
 
 # Will push if working directory is clean and local branch is up to date with remote branch
@@ -146,12 +196,10 @@ def cmd_pull_and_combine():
         print("Error: working directory is not clean.")
         print("Commit your changes first with:  python sync.py --commit_and_print")
         sys.exit(1)
-
-    # Fetch migrations from Supabase before pulling
-    print("Fetching Supabase migrations...")
-    result = subprocess.run("supabase migration fetch --linked", shell=True, text=True)
-    if result.returncode != 0:
-        print("Warning: supabase migration fetch failed — continuing anyway.")
+    
+    figma_list = load_figma_list()
+    restored = []
+    skipped = []
 
     # Pull remote changes
     print(f"Pulling from {REMOTE}/{BRANCH}...")
@@ -176,9 +224,6 @@ def cmd_pull_and_combine():
     diff_result = run(["git", "diff", "--name-only", our_commit, "HEAD"])
     diffed_files = [f.strip() for f in diff_result.stdout.strip().splitlines() if f.strip()]
 
-    figma_list = load_figma_list()
-    restored = []
-    skipped = []
 
     for filepath in diffed_files:
         if is_figma_managed(filepath, figma_list):
@@ -199,11 +244,13 @@ def cmd_pull_and_combine():
                 else:
                     skipped.append(filepath)
 
-    if not restored:
+    print(f"Restored {len(restored)} file(s), skipped {len(skipped)} figma-managed file(s).")
+
+    sync_remote_only_migrations()
+
+    if not restored and is_clean():
         print("No files to restore (all diffs are in the figma list).")
         return
-
-    print(f"Restored {len(restored)} file(s), skipped {len(skipped)} figma-managed file(s).")
 
     if is_clean():
         print("No changes after restore — nothing to commit.")
