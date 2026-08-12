@@ -1,0 +1,14 @@
+# Files and directories managed by Figma Make.
+# One path per line. Directories apply to all files within them.
+# Lines starting with # are comments.
+
+src/
+supabase/functions/server/
+utils/supabase/info.tsx
+guidelines/
+ATTRIBUTIONS.md
+default_shadcn_theme.css
+package.json
+pnpm-workspace.yaml
+postcss.config.mjs
+vite.config.ts
