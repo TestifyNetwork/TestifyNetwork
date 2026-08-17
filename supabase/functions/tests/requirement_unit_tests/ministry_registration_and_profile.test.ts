@@ -1,6 +1,5 @@
-// MIN-01 — Any Member (or Admin) may register a ministry by submitting
-// identifying information; Testify identifies the ministry via Perplexity.
-//
+// Tests ministry regristration and profile
+
 // Runs against a real local Supabase stack (see scripts/test.sh) rather than
 // a fake table — only Perplexity and the NRM doc fetch are mocked, since
 // those are genuine third-party APIs. The DB is reset once for the whole
@@ -40,6 +39,9 @@ function makeRequest(body: unknown): Request {
   });
 }
 
+// MIN-01 — Any Member (or Admin) may register a ministry by submitting
+// identifying information; Testify identifies the ministry via Perplexity.
+//
 describe("MIN-01: add_ministry identification flow", () => {
   let edgeRuntime: ReturnType<typeof installEdgeRuntimeStub>;
 

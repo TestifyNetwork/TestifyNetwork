@@ -835,17 +835,12 @@ Whenever you make changes to the project files (like a new migration file), you 
 
 Follow this process any time you need to make a change to the database's structure (adding a new table, column, etc.):
 
-1. Make your schema change (e.g., in Supabase Studio — ⚠️ *specifics on how changes are actually made still need to be added*).
-2. Generate a migration file that records the change:
-   ```
-   supabase db diff
-   ```
-   This creates a new file inside the `supabase/migrations` folder in your project, named with a timestamp (e.g., `20260706120000_your_change.sql`). This file is a record of exactly what changed.
-3. Commit the migration file using the **Committing your changes with Git** steps above.
-4. Apply the change to the live, production database:
+1. Ask Claude to make the database change. This could involve a few steps if code or tests need to be changed.
+2. Apply the change to the live, production database:
    ```
    supabase db push
    ```
+3. Try to commit the changes. If they fall under figma managed files then make the changes in figma and go through the regular steps. 
 
 ---
 
@@ -896,4 +891,4 @@ Figma Make can make its own changes to the project. Since these changes come in 
 - **Step 6:** confirm whether a database password prompt happens, and where to find that password if so.
 - **Step 14:** needs a Windows equivalent for running the `./tests/add_ministry_regression.sh` script (e.g., via Git Bash, or a `.ps1`/`.bat` equivalent).
 - **Workflow: Changing the database schema, step 1:** needs specifics on *how* schema changes are actually made (e.g., directly in Supabase Studio's table editor?).
-  
+
