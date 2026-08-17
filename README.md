@@ -5,6 +5,326 @@ This guide walks you through everything you need to set up your computer to make
 > **Note:** This is a working draft. Some sections are flagged with ⚠️ where a detail is still missing or needs review.
 
 ---
+## Overview
+### Database tables
+```mermaid
+erDiagram
+    Users ||--|| User_Private_Details : has
+    Users ||--o{ User_Roles : holds
+    Users ||--o{ Testimonies : submits
+    Users ||--o{ Leader_Interviews : "is interviewed"
+    Users ||--o{ Channel_Posts : authors
+    Users ||--o{ Ministry_Updates : authors
+    Users ||--o{ Member_Notes : writes
+    Users ||--o{ Content_Flags : files
+    Users ||--o{ User_Agreement_Acknowledgments : acknowledges
+    Users ||--o{ Ministries : registers
+    Users ||--o{ Ministries : proposes
+    Users |o--o{ Ministries : "leads / represents"
+    Users |o--o{ Ministries : "is contact for"
+    Users ||--o| Admin : is
+
+    Ministries ||--o{ User_Roles : scopes
+    Ministries ||--o{ Testimonies : receives
+    Ministries ||--o{ Leader_Interviews : hosts
+    Ministries ||--|| Channels : has
+    Ministries ||--o{ Ministry_Updates : publishes
+    Ministries ||--o{ Ministry_Newsletters : syndicates
+    Ministries ||--o{ Member_Notes : "is noted on"
+    Ministries ||--o| Ministry_Questionnaire : uses
+
+    Channels ||--o{ Channel_Posts : contains
+
+    Member_Agreements ||--o{ User_Agreement_Acknowledgments : versions
+
+    Admin ||--o{ Admin_Audit_Log : performs
+
+    Users {
+        uuid user_id PK
+        text email UK
+        text first_name
+        text last_name
+        text bio
+        text home_church
+        text ministry_interests "array"
+        text profile_photo_url
+        text referral_source "enum + freetext"
+        text profile_visibility "private / staff_of_followed_ministries / dialogue_channels / all_members — multi-select, default private"
+        text status "pending / onboarding / active / inactive"
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    User_Private_Details {
+        uuid user_id PK "FK, 1:1 with Users"
+        text home_address
+        text mobile_phone
+        text spouse_name
+        int birth_year "not exposed publicly"
+    }
+
+    Ministries {
+        uuid ministry_id PK
+        text name
+        text slug UK
+        text mission
+        text hq_city
+        text hq_state
+        text hq_country
+        text location_served "array"
+        text people_groups_served "array"
+        text ministry_type
+        numeric annual_budget
+        text ein
+        text website_url
+        text exec_director_name
+        text irs_reports "array"
+        text annual_reports "array"
+        text form_990_source "public_filing / subsidiary_website / ministry_provided / not_available"
+        bool subsidiary_status "operates as a subsidiary of a parent org"
+        text subsidiary_irs_reports "array, nullable — filed under the parent org"
+        text contact "point-of-contact name, captured pre-registration"
+        text contact_role "staff / leader"
+        uuid contact_id FK "nullable — linked once contact registers as a Member"
+        text contact_role_details "freeform detail on contact_role"
+        uuid leader_or_representative_user_id FK "nullable until claimed"
+        uuid proposed_by FK
+        uuid questionnaire FK "nullable, 1:1 with Ministry_Questionnaire"
+        text nrm1 "nullable"
+        text nrm2 "nullable"
+        text status "20-value enrollment pipeline — see reference list below"
+        int flag_level "0 none / 1 single / 2 double (auto-hidden)"
+    }
+
+    Ministry_Questionnaire {
+        uuid questionnaire_id PK
+        text NRM_1_review
+        text question_1
+        text question_2
+        text question_3
+        text question_4
+        text question_5
+        text question_6
+        text question_7
+    }
+
+    User_Roles {
+        uuid role_id PK
+        uuid user_id FK
+        uuid ministry_id FK "not null — every role is ministry-scoped"
+        text role_on_testify "follow / witness / beneficiary / advocate / moderator / leader / representative"
+        text role_in_ministry "optional: Leader / Staff / Volunteer / Donor / Beneficiary"
+        timestamptz assigned_at
+    }
+
+    Testimonies {
+        uuid testimony_id PK
+        uuid ministry_id FK
+        uuid user_id FK
+        text type "text / video"
+        text text_content
+        text video_url
+        text role_type "witness / beneficiary"
+        bool is_advocate
+        date service_date
+        text sentiment "positive / neutral / negative"
+        text status "pending / approved / removed"
+        int flag_level "0 / 1 / 2"
+    }
+
+    Leader_Interviews {
+        uuid interview_id PK
+        uuid ministry_id FK
+        uuid interviewed_user_id FK
+        text type "text / video"
+        text text_content
+        text video_url
+        timestamptz posted_at
+        text status
+        int flag_level "0 / 1 / 2"
+    }
+
+    Channels {
+        uuid channel_id PK
+        uuid ministry_id FK 
+        timestamptz created_at
+    }
+
+    Channel_Posts {
+        uuid post_id PK
+        uuid channel_id FK
+        uuid user_id FK "must hold a User_Roles row for this ministry"
+        text content
+        text image_url
+        text file_attachment_url
+        bool deleted_flag
+        int flag_level "0 / 1 / 2"
+    }
+
+    Ministry_Updates {
+        uuid update_id PK
+        uuid ministry_id FK
+        uuid posted_by_user_id FK
+        text content
+        text image_url
+        timestamptz published_at
+    }
+
+    Member_Notes {
+        uuid note_id PK
+        uuid user_id FK
+        uuid ministry_id FK
+        text content
+        timestamptz updated_at
+    }
+
+    Ministry_Newsletters {
+        uuid newsletter_id PK
+        uuid ministry_id FK
+        text source_url
+        text content
+        timestamptz pulled_at
+    }
+
+    Content_Flags {
+        uuid flag_id PK
+        uuid flagged_by_user_id FK
+        text target_type "post / testimony / profile / interview"
+        uuid target_id "polymorphic, no DB-level FK"
+        int severity "1 single-concern / 2 double-serious"
+        text reason
+        timestamptz resolved_at
+        uuid resolved_by_user_id FK "no drawn edge"
+    }
+
+    Member_Agreements {
+        uuid agreement_id PK
+        text version
+        text text_content
+        date effective_date
+    }
+
+    User_Agreement_Acknowledgments {
+        uuid ack_id PK
+        uuid user_id FK
+        uuid agreement_id FK
+        timestamptz accepted_at
+        text ip_address
+    }
+
+    Admin {
+        uuid admin_id PK
+        uuid user_id FK "1:1 with Users"
+        timestamptz assigned_at
+    }
+
+    Admin_Audit_Log {
+        uuid log_id PK
+        uuid admin_id FK
+        text action
+        text target_type
+        uuid target_id
+        timestamptz timestamp
+        text notes
+    }
+
+    Decline_Reasons {
+        uuid reason_id PK
+        text decline_stage "welcome / participation_guidelines / statement_of_faith"
+        text opt_out_reason "optional, anonymous"
+        timestamptz created_at
+    }
+
+    Incomplete_Enrollments {
+        uuid record_id PK
+        text enrollment_type "ministry"
+        text exited_at_step "freetext step label"
+        text opt_out_reason "optional, anonymous"
+        timestamptz created_at
+    }
+```
+#### Ministry Enrollment status pipeline
+Ministries.status — the 20-step enrollment pipeline, in the order given.
+
+
+**`waiting_generation_1`**
+
+↓
+
+**`correctly_identified`**
+
+↓
+
+**`relationship_identified`**
+
+↓
+
+**`contact_acquired`**
+
+↓
+
+**`invitation_sent`**
+
+↓
+
+**`invitation_accepted`**
+
+↓
+
+**`pending_admin_approval`**
+
+↓
+
+**`questionnaire_sent`**
+
+↓
+
+**`questionnaire_submitted`**
+
+↓
+
+**`questionnaire_pending_review`**
+
+↓
+
+**`questionnaire_completed`**
+
+↓
+
+**`NRM1_pending_review`**
+
+↓
+
+**`pending_both`**
+
+↓
+
+**`NRM1_reviewed`**
+
+↓
+
+**`NRM2_generated`**
+
+↓
+
+**`heart_questions_published`**
+
+↓
+
+**`NRM2_sent`**
+
+↓
+
+**`NRM2_pending_review`**
+
+↓
+
+**`NRM2_reviewed`**
+
+↓
+
+**`enrolled`**
+
 
 ## Part 1: Initial Computer Setup
 
