@@ -3,9 +3,10 @@
 sync.py — manages two-workspace git sync with Figma Make.
 
 Usage:
-  python sync.py --push               Push local commits to remote main.
-  python sync.py --pull_and_combine   Pull figma changes and restore local changes on top.
-  python sync.py --commit_and_print   Review diff, confirm, and commit.
+  python sync.py --push                  Push local commits to remote main.
+  python sync.py --pull_and_combine      Pull figma changes and restore local changes on top.
+  python sync.py --commit_and_print      Review diff, confirm, and commit.
+  python sync.py --get_database_schema   Regenerate src/types/database.ts from the linked project's schema.
 """
 
 import argparse
@@ -20,6 +21,7 @@ FIGMA_COMMIT_MSG = "Update files from Figma Make"
 SYNC_COMMIT_MSG_PREFIX = "Bringing back changes from"
 FIGMA_LIST_FILE = "figma_managed_list.txt"
 MIGRATIONS_DIR = os.path.join("supabase", "migrations")
+DATABASE_TYPES_FILE = os.path.join("src", "types", "database.ts")
 
 
 # ── Shell helpers ─────────────────────────────────────────────────────────────
@@ -312,6 +314,22 @@ def cmd_commit_and_print():
     print(f"Committed: \"{message}\"")
 
 
+def cmd_get_database_schema():
+    print("Generating TypeScript types from the linked Supabase project's schema...")
+    result = run(["supabase", "gen", "types", "typescript", "--linked", "--schema", "public"])
+
+    os.makedirs(os.path.dirname(DATABASE_TYPES_FILE), exist_ok=True)
+
+    header = (
+        "// AUTO-GENERATED — do not edit by hand.\n"
+        "// Regenerate after any schema change: python sync.py --get_database_schema\n\n"
+    )
+    with open(DATABASE_TYPES_FILE, "w") as f:
+        f.write(header + result.stdout)
+
+    print(f"Wrote {DATABASE_TYPES_FILE}")
+
+
 # ── Entry point ───────────────────────────────────────────────────────────────
 
 def main():
@@ -323,6 +341,8 @@ def main():
                        help="Pull figma changes and restore local changes on top.")
     group.add_argument("--commit_and_print", action="store_true",
                        help="Review diff, confirm, and commit.")
+    group.add_argument("--get_database_schema", action="store_true",
+                       help="Regenerate src/types/database.ts from the linked Supabase project's schema.")
     args = parser.parse_args()
 
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -333,6 +353,8 @@ def main():
         cmd_pull_and_combine()
     elif args.commit_and_print:
         cmd_commit_and_print()
+    elif args.get_database_schema:
+        cmd_get_database_schema()
 
 
 if __name__ == "__main__":

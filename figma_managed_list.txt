@@ -12,3 +12,4 @@ package.json
 pnpm-workspace.yaml
 postcss.config.mjs
 vite.config.ts
+tsconfig.json
