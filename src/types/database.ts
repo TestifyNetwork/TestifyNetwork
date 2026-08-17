@@ -10,11 +10,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "14.5"
-  }
   public: {
     Tables: {
       admin_audit_logs: {
@@ -317,18 +312,21 @@ export type Database = {
       member_agreements: {
         Row: {
           agreement_id: string
+          agreement_type: string
           effective_date: string | null
           text_content: string | null
           version: string
         }
         Insert: {
           agreement_id?: string
+          agreement_type: string
           effective_date?: string | null
           text_content?: string | null
           version: string
         }
         Update: {
           agreement_id?: string
+          agreement_type?: string
           effective_date?: string | null
           text_content?: string | null
           version?: string
@@ -406,6 +404,7 @@ export type Database = {
           NRM_1_version: string | null
           NRM_2_version: string | null
           people_groups_served: string[] | null
+          proposed_by_user_id: string | null
           questionnaire: string | null
           slug: string | null
           status: string
@@ -444,6 +443,7 @@ export type Database = {
           NRM_1_version?: string | null
           NRM_2_version?: string | null
           people_groups_served?: string[] | null
+          proposed_by_user_id?: string | null
           questionnaire?: string | null
           slug?: string | null
           status?: string
@@ -482,6 +482,7 @@ export type Database = {
           NRM_1_version?: string | null
           NRM_2_version?: string | null
           people_groups_served?: string[] | null
+          proposed_by_user_id?: string | null
           questionnaire?: string | null
           slug?: string | null
           status?: string
@@ -500,6 +501,13 @@ export type Database = {
           {
             foreignKeyName: "ministries_leader_or_representative_user_id_fkey"
             columns: ["leader_or_representative_user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "ministries_proposed_by_user_id_fkey"
+            columns: ["proposed_by_user_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["user_id"]
@@ -798,45 +806,60 @@ export type Database = {
       }
       users: {
         Row: {
-          bio: string | null
+          bio_faith: string | null
+          bio_family: string | null
+          bio_season: string | null
+          bio_work: string | null
           created_at: string
-          email: string
+          email: string | null
+          enrollment_step: string
           first_name: string | null
           home_church: string | null
           last_name: string | null
-          ministry_interests: string[] | null
+          ministry_interests: string | null
           profile_photo_url: string | null
           profile_visibility: string[]
+          referral_detail: string | null
           referral_source: string | null
           status: string
           updated_at: string
           user_id: string
         }
         Insert: {
-          bio?: string | null
+          bio_faith?: string | null
+          bio_family?: string | null
+          bio_season?: string | null
+          bio_work?: string | null
           created_at?: string
-          email: string
+          email?: string | null
+          enrollment_step?: string
           first_name?: string | null
           home_church?: string | null
           last_name?: string | null
-          ministry_interests?: string[] | null
+          ministry_interests?: string | null
           profile_photo_url?: string | null
           profile_visibility?: string[]
+          referral_detail?: string | null
           referral_source?: string | null
           status?: string
           updated_at?: string
           user_id: string
         }
         Update: {
-          bio?: string | null
+          bio_faith?: string | null
+          bio_family?: string | null
+          bio_season?: string | null
+          bio_work?: string | null
           created_at?: string
-          email?: string
+          email?: string | null
+          enrollment_step?: string
           first_name?: string | null
           home_church?: string | null
           last_name?: string | null
-          ministry_interests?: string[] | null
+          ministry_interests?: string | null
           profile_photo_url?: string | null
           profile_visibility?: string[]
+          referral_detail?: string | null
           referral_source?: string | null
           status?: string
           updated_at?: string
@@ -982,3 +1005,4 @@ export const Constants = {
     Enums: {},
   },
 } as const
+
