@@ -1,11 +1,43 @@
-# Guide to Updating the TestifyNetwork Website
+# Guide to TestifyNetwork
 
-This guide walks you through everything you need to set up your computer to make changes to the TestifyNetwork website, using a tool called Claude Code. You don't need any prior experience with GitHub, terminals, or coding — every step below tells you exactly what to type and click.
+This will guide you through a basic overview of TestifyNetwork and then how to update various parts of it. 
 
-> **Note:** This is a working draft. Some sections are flagged with ⚠️ where a detail is still missing or needs review.
+Testify Network's mission is to enable faithful stewardship by creating a platform for individuals to share their experience with Christian nonprofits. 
+
+*The Thesis of Testify Network comes from Jesus' promise: "You will know them by their fruits" (Matthew 7:16 NKJV). When we participate in the work of a ministry, we get to know a ministry leader’s heart, learn ministry practices, and witness first-hand how God works in a ministry. We see the fruit. By sharing our ministry serving experience with others we testify to the work God is doing. As a group, in a trusted and like-minded network, perhaps we can help one another become better stewards of our time, talent, and treasure. Some of us have more time, others more treasure, but we all play a role in God’s work. Trusting others in the network is essential, truth is paramount. And the beauty is in celebrating the goodness of God, rejoicing in His harvest. For where your treasure is, there your heart will be also.*
+
+## Table of Contents
+
+1. [Overview](#overview)
+2. [Setup](#part-1-initial-computer-setup)
+3. [Testing](#part-2-testing)
+
+   a. [Test structure](#test-structure)
+   
+   b. [Steps to test ](#step-1-start-your-local-testing-database)
+4. [How to make changes](#part-3-ongoing-workflow--making-future-changes)
+
+   a. [Committing](#workflow-committing-changes)
+
+   b. [Pulling](#workflow-updating-local-with-remote)
+
+   c. [Pushing](#workflow-update-remote-with-local)
+
 
 ---
 ## Overview
+
+Testify Network's platform is composed of 3 layers:
+
+- Frontend: this handles the website UI
+- Core: this handles the logic used by the frontend and manages calls to the backend
+- Backend: supported by supabase, this provides the database and access to third party services
+
+We use Figma Make to write most of the UI and host the website server.
+
+Claude desktop helps us code the core and backend layers. Occasionally it's used to help with the frontend as well.
+
+
 ### Database tables
 ```mermaid
 erDiagram
@@ -436,7 +468,7 @@ Press Enter. You should see some text appear showing the files being downloaded.
 
 ### Step 4: Install the Supabase CLI
 
-The Supabase CLI is a tool that lets you manage the website's database from the terminal.
+The Supabase CLI is a tool that lets you manage a local version of the database from the terminal. This is needed for testing and helpful for development. The local version we use will not have the data in our remote database but will have the schema. 
 
 **On Mac:**
 
@@ -454,6 +486,11 @@ The Supabase CLI is a tool that lets you manage the website's database from the 
 2. Install the Supabase CLI by typing:
    ```
    brew install supabase/tap/supabase
+   ```
+
+3. Turn off telemetry
+   ```
+   supabase telemetry disable
    ```
 
 **On Windows:**
@@ -476,6 +513,11 @@ The Supabase CLI is a tool that lets you manage the website's database from the 
    ```
    scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
    scoop install supabase
+   ```
+
+3. Turn off telemetry
+   ```
+   supabase telemetry disable
    ```
 
 **Check it worked (Mac or Windows):**
@@ -525,55 +567,7 @@ supabase link --project-ref fyngtvccgxbbyjvckdcf
 
 ---
 
-### Step 7: Pull the database structure
-
-This downloads the structure of the real (live) database — its tables and setup — so your local testing copy matches it.
-
-1. Make sure you're in the project's `supabase` folder:
-
-   **Mac:**
-   ```
-   cd ~/Documents/TestifyNetwork/TestifyNetwork/supabase
-   ```
-
-   **Windows:**
-   ```
-   cd ~\Documents\TestifyNetwork\TestifyNetwork\supabase
-   ```
-
-2. Run:
-   ```
-   supabase db pull
-   ```
-3. This downloads the database structure into your project files. You should see some output confirming it completed.
-
----
-
-### Step 8: Download the `add_ministry` edge function
-
-This downloads the code for a specific backend function called `add_ministry` so it's available in your local project.
-
-1. Make sure you're still in the project's `supabase` folder:
-
-   **Mac:**
-   ```
-   cd ~/Documents/TestifyNetwork/TestifyNetwork/supabase
-   ```
-
-   **Windows:**
-   ```
-   cd ~\Documents\TestifyNetwork\TestifyNetwork\supabase
-   ```
-
-2. Run:
-   ```
-   supabase functions download add_ministry
-   ```
-3. You should see a confirmation message once it finishes downloading.
-
----
-
-### Step 9: Install Docker Desktop
+### Step 7: Install Docker Desktop
 
 Docker creates a safe, separate testing environment on your computer so you can try changes before they go live on the real website.
 
@@ -630,208 +624,37 @@ You should see version numbers printed (for Deno, V8, and TypeScript). If you in
 
 ---
 
-### Step 11: Start your local testing database
+## Part 2: Testing
+
+Before making any changes ensure you can run the tests without failure. This will give you a confident starting point. 
+
+### Test structure
+
+### Step 1: Start your local testing database
 
 This spins up a local copy of the website's database inside Docker, so you can safely test changes before they affect the real (live) site.
 
 1. Make sure **Docker Desktop is open and running** (you should see the whale icon fully loaded in your menu bar/system tray) — this step won't work unless Docker is running in the background.
 
-2. In your terminal, navigate to the `supabase` folder inside the project:
-
-   **Mac:**
+2. Run
    ```
-   cd ~/Documents/TestifyNetwork/TestifyNetwork/supabase
+   deno task test
    ```
 
-   **Windows:**
-   ```
-   cd ~\Documents\TestifyNetwork\TestifyNetwork\supabase
-   ```
+If you want to run only one test then provide the test name to the following command. The test name is likely a description of the test.
+For example, one test name is "rejects registering a ministry that already exists".
 
-3. Run the following command:
-   ```
-   supabase start
-   ```
+    ```
+    deno task test -- --filter "<name of test>" 
+    ```
 
-4. **You may be asked to enter your computer's password during this step.** This is normal and safe — go ahead and enter it (on Mac, nothing will appear on screen as you type, which is normal).
 
-5. This may take a few minutes the first time, since it needs to download some files. You'll know it's done when you see a block of text in the terminal showing local URLs and keys (this means your local testing database is up and running).
-
-> **Note:** Leave Docker Desktop running in the background while you're working — if you close it, your local testing database will stop working too.
-
-**Understanding what you see and accessing your local database:**
-
-After running `supabase start`, you'll see a block of text listing several local web addresses (for Studio, Mailpit, APIs, and so on). The important one for you is **Studio**.
-
-**To view your local database:**
-1. Copy this address: `http://127.0.0.1:54323`
-2. Paste it into your web browser and press Enter.
-3. This opens **Supabase Studio** — a visual tool where you can see and edit the website's data (tables, entries, etc.) in your local testing environment, separate from the live website.
-
-> ⚠️ **Important note:** The keys and codes shown in your terminal (labeled things like "Publishable," "Secret," "Access Key," etc.) are unique to your project and act like passwords — don't share screenshots of this output with anyone, and don't paste these into anything other than where this guide tells you to.
-
----
-
-### Step 12: Run the tests
-
-This checks that everything is working correctly by running an automated test against the `add_ministry` function.
-
-1. Navigate to the main project folder:
-
-   **Mac:**
-   ```
-   cd ~/Documents/TestifyNetwork/TestifyNetwork
-   ```
-
-   **Windows:**
-   ```
-   cd ~\Documents\TestifyNetwork\TestifyNetwork
-   ```
-
-2. Run the test:
-   ```
-   deno test tests/add_ministry_test.ts 2>&1
-   ```
-3. You'll see output in the terminal telling you whether the test **passed** or **failed**. Look for a line near the bottom that says something like `ok` or `1 passed` (success), or `FAILED` (something went wrong).
-
----
-
-### Step 13: Create the `.env.keys` file
-
-Before running the regression test, you need to create a file with an API key.
-
-1. Get the `PERPLEXITY_KEY` value from **project tracking**.
-
-2. Navigate to the project's root folder:
-
-   **Mac:**
-   ```
-   cd ~/Documents/TestifyNetwork/TestifyNetwork
-   ```
-
-   **Windows:**
-   ```
-   cd ~\Documents\TestifyNetwork\TestifyNetwork
-   ```
-
-3. Create the `.env.keys` file with the key inside it, replacing `your_key_here` with the key you copied:
-
-   **Mac (Terminal):**
-   ```
-   touch .env.keys
-   echo "PERPLEXITY_KEY=your_key_here" > .env.keys
-   ```
-
-   **Windows (PowerShell):**
-   ```
-   New-Item .env.keys -ItemType File
-   Set-Content .env.keys "PERPLEXITY_KEY=your_key_here"
-   ```
-
-4. Double-check it worked:
-
-   **Mac:**
-   ```
-   cat .env.keys
-   ```
-
-   **Windows:**
-   ```
-   Get-Content .env.keys
-   ```
-
----
-
-### Step 14: Deploy and test the function
-
-This publishes your `add_ministry` function to the real, live Supabase project, then runs a test against it to confirm it's working.
-
-1. Navigate to the main project folder:
-
-   **Mac:**
-   ```
-   cd ~/Documents/TestifyNetwork/TestifyNetwork
-   ```
-
-   **Windows:**
-   ```
-   cd ~\Documents\TestifyNetwork\TestifyNetwork
-   ```
-
-2. Deploy the function:
-   ```
-   supabase functions deploy add_ministry
-   ```
-3. You should see a confirmation message once the deploy completes successfully.
-
-4. Run the test against the deployed function:
-
-   **Mac:**
-   ```
-   ./tests/add_ministry_regression.sh
-   ```
-
-   **Windows:** ⚠️ *(still needs a Windows equivalent for running `.sh` scripts — to be added)*
-   ```
-   [Windows equivalent needed]
-   ```
-
-5. You'll see output in the terminal telling you whether the test passed or failed.
-
-6. You can also view the function's live logs and status any time by visiting:
-   [https://supabase.com/dashboard/project/fyngtvccgxbbyjvckdcf/functions/add_ministry](https://supabase.com/dashboard/project/fyngtvccgxbbyjvckdcf/functions/add_ministry)
-
-   This is useful for checking on the function after deploying, or for troubleshooting if something isn't working as expected.
-
-> ⚠️ **Heads up:** step 2 publishes your changes to the live, real version of the function — not just your local testing copy. Make sure you're confident in your changes before running this.
-
----
-
-## Part 2: Ongoing Workflow — Making Future Changes
+## Part 3: Ongoing Workflow — Making Future Changes
 
 The steps in Part 1 only need to happen once. The notes below describe the process to follow every time you make changes going forward.
 
-### Committing your changes with Git
 
-Whenever you make changes to the project files (like a new migration file), you need to "commit" them — this saves a snapshot of your changes and uploads them to GitHub so they're safely stored and shared.
-
-1. Navigate to the main project folder:
-
-   **Mac:**
-   ```
-   cd ~/Documents/TestifyNetwork/TestifyNetwork
-   ```
-
-   **Windows:**
-   ```
-   cd ~\Documents\TestifyNetwork\TestifyNetwork
-   ```
-
-2. Check what's changed:
-   ```
-   git status
-   ```
-   This lists any new or modified files, shown in red.
-
-3. Stage your changes (tell Git which files to include in this commit):
-   ```
-   git add .
-   ```
-   The `.` means "include everything that's changed."
-
-4. Commit your changes with a short description of what you did:
-   ```
-   git commit -m "Add migration for [describe your change here]"
-   ```
-
-5. Upload your commit to GitHub:
-   ```
-   git push
-   ```
-
----
-
-### Workflow: Changing the database schema
+### Workflow: Updating the database schema
 
 Follow this process any time you need to make a change to the database's structure (adding a new table, column, etc.):
 
@@ -840,55 +663,51 @@ Follow this process any time you need to make a change to the database's structu
    ```
    supabase db push
    ```
-3. Try to commit the changes. If they fall under figma managed files then make the changes in figma and go through the regular steps. 
+3. Update the diagram in this README
+4. Update the auto generated database constants files
+    ```
+    python sync.py --get_database_schema
+    ```
+5. Try to commit the changes. If they fall under figma managed files then make the changes in figma and go through the regular steps. 
 
 ---
 
-### Workflow: Syncing changes made in Figma Make
+### Workflow: Committing changes
 
-Figma Make can make its own changes to the project. Since these changes come in outside of your normal workflow, follow these steps carefully to make sure nothing you're working on gets lost.
+Committing changes means to save your current changes with a message and timestamp. This will allow you to go back and reference the change or even to revert back to it. Your sequence of commits will be saved locally and remotely when you `push` them. I recommend `committing` every time you've added a feature or incremental, complete change. 
 
-1. Save your current work first, using the **Committing your changes with Git** steps above:
+Our python script will help you commit a change.
+
+1. Run the python script with option to commit
    ```
-   git add .
-   git commit -m "Describe your changes here"
-   git push
-   ```
-
-2. In Figma Make, push its changes to GitHub (using Figma Make's own interface/controls for this).
-
-3. Fetch any database changes Figma Make made:
-   ```
-   supabase migration fetch --linked
+   python3 sync.py --commit_and_print
    ```
 
-4. Pull Figma Make's changes into your project:
+Follow the steps in the script
+
+### Workflow: Updating local with remote
+
+We want to ensure the local repository is up to date with the remote. If we push to remote through Figma then we will need to update the local repository. This is called `pulling`.
+
+To `pull` use the python script.
+
+1. Run the python script with the option to pull
    ```
-   git pull
+   python3 sync.py --pull_and_combine
    ```
 
-5. **Carefully review the output of `git pull`.** Figma Make's changes may have overwritten (reverted) some of your own recent changes to certain files — check the list of updated files closely.
+This script will do a few things automatically. It will see if the local repository is behind the remote. If it is it will look to see if those updates are from Figma. Figma always pushes with the same commit message. If the updates are from Figma then the script will pull and then create a new commit that combines the recent Figma commit and our previous commit. Figma tends to override files it doesn't manage and we don't want it to. We only allow Figma to override files that our listed in the file `figma_managed_files.txt`. 
 
-6. View your recent commit history to find your own most recent commit (the one you made in step 1, right before Figma Make's changes came in):
+So after pulling you might see that the local repository is one commit ahead of the remote. That's our combination commit and is intentional.
+
+### Workflow: Update remote with local
+
+To ensure the remote is up to date with the local we need to `push` our commits. 
+
+1. Make sure all of your changes are commited. See the [workflow](#workflow-committing-changes)
+
+2. Run the python script with option to push
    ```
-   git log --oneline
+   python3 sync.py --push
    ```
-   This shows a short list of recent commits with their commit hashes (a short code like `a1b2c3d`) next to a short description. Find the commit from step 1 and copy its hash.
-
-7. For any file(s) you noticed in step 5 that had your changes overwritten, restore your version of that file using:
-   ```
-   git checkout <commit hash> -- <file path>
-   ```
-   Replace `<commit hash>` with the hash you copied in step 6, and `<file path>` with the file you want to restore (e.g., `supabase/functions/add_ministry/index.ts`). You can repeat this command for each affected file.
-
-> ⚠️ **Note:** Step 7 requires judgment — carefully compare what Figma Make changed versus what you changed, so you don't accidentally undo work you actually want to keep from Figma Make. If you're ever unsure, it's worth pausing and asking for a second opinion before overwriting anything.
-
----
-
-## Open Items / Flags for Review
-
-- **Step 5 (Log in to Supabase):** may be removable — confirm whether it's still needed.
-- **Step 6:** confirm whether a database password prompt happens, and where to find that password if so.
-- **Step 14:** needs a Windows equivalent for running the `./tests/add_ministry_regression.sh` script (e.g., via Git Bash, or a `.ps1`/`.bat` equivalent).
-- **Workflow: Changing the database schema, step 1:** needs specifics on *how* schema changes are actually made (e.g., directly in Supabase Studio's table editor?).
 

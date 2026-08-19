@@ -25,13 +25,7 @@ export type UserPrivateDetailsRow = Tables["user_private_details"]["Row"];
 export type MemberAgreementRow = Tables["member_agreements"]["Row"];
 
 // ─── Enum-like literal types ────────────────────────────────────────────
-// These columns are CHECK constraints, not native Postgres enums, so
-// `supabase gen types` can't infer a literal union for them — it just sees
-// `string`. These are hand-kept in sync with the CHECK constraints in
-// supabase/migrations/20260817210000_enrollment_schema_additions.sql (and
-// the original ERD migration for profile_visibility). If a constraint's
-// allowed values change, update both places.
-
+// These columns are CHECK constraints, not native Postgres enums
 export type EnrollmentStep =
   | "participation_guidelines"
   | "statement_of_faith"
